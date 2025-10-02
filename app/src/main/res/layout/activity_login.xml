@@ -97,8 +97,9 @@
             <!-- Toggle password (mata) -->
             <ImageView
                 android:id="@+id/ivTogglePassword"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/ic_eye_closed"
                 android:contentDescription="Toggle Password" />
         </LinearLayout>
 

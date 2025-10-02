@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "471228196797",
+    "project_id": "wonosoboapp-3e256",
+    "storage_bucket": "wonosoboapp-3e256.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:471228196797:android:a0b9250e5c8f031f7e54d4",
+        "android_client_info": {
+          "package_name": "com.example.projectpemmob"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxvbwxCzsy7xXxDX6u_kvd1vXpJyPPAbE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
