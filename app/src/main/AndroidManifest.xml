@@ -21,6 +21,9 @@
             android:label="@string/title_activity_register"
             android:theme="@style/Theme.ProjectPemmob.Fullscreen"></activity>
         <activity
+            android:name=".HomepageActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoginActivity"
             android:exported="false" />
         <activity

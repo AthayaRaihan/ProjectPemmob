@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="#8D6E63"
+                android:endColor="#5D4037"
+                android:angle="45" />
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+    
+    <!-- Bowl simulation -->
+    <item android:top="80dp" android:left="20dp" android:right="20dp" android:bottom="20dp">
+        <shape android:shape="oval">
+            <solid android:color="#F5F5DC" />
+        </shape>
+    </item>
+    
+    <!-- Food content -->
+    <item android:top="90dp" android:left="30dp" android:right="30dp" android:bottom="30dp">
+        <shape android:shape="oval">
+            <solid android:color="#D2691E" />
+        </shape>
+    </item>
+</layer-list>
