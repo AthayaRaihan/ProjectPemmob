@@ -34,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
                 firebaseAuth.signInWithEmailAndPassword(email, pass)
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
-                            val intent = Intent(this, Homepage::class.java)
+                            val intent = Intent(this, HomepageActivity::class.java)
                             startActivity(intent)
                         } else {
                             Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()

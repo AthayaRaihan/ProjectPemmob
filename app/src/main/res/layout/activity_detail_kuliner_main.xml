@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <!-- Main Content -->
-    <include layout="@layout/activity_homepage" />
+    <include layout="@layout/activity_detail_kuliner" />
 
     <!-- Bottom Navigation -->
     <LinearLayout
@@ -21,6 +21,7 @@
 
         <!-- Home -->
         <LinearLayout
+            android:id="@+id/ll_home"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -84,6 +85,7 @@
 
         <!-- Profile -->
         <LinearLayout
+            android:id="@+id/ll_profile"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

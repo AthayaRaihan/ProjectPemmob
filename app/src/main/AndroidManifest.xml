@@ -11,9 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjectPemmob">
-        <activity
-            android:name=".Homepage"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".Homepage"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".RegisterActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -22,6 +22,21 @@
             android:theme="@style/Theme.ProjectPemmob.Fullscreen"></activity>
         <activity
             android:name=".HomepageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WisataActivity"
+            android:exported="false" />
+        <activity
+            android:name=".KulinerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetailWisataActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetailKulinerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FavoritActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"

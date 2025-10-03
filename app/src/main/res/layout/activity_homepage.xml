@@ -190,6 +190,7 @@
 
                     <!-- First Tourism Card -->
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/card_homepage_dieng_1"
                         android:layout_width="280dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
@@ -289,6 +290,7 @@
 
                     <!-- Second Tourism Card -->
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/card_homepage_dieng_2"
                         android:layout_width="280dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
