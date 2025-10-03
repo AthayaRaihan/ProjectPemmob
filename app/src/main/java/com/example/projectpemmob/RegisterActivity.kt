@@ -2,6 +2,7 @@ package com.example.projectpemmob
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,8 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var firebaseAuth: FirebaseAuth
+    private var isPasswordVisible = false
+    private var isConfirmPasswordVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,5 +72,37 @@ class RegisterActivity : AppCompatActivity() {
             startActivity(intent)
             finish() // optional, supaya user tidak bisa kembali ke register dengan tombol back
         }
+
+        binding.ivTogglePassword.setOnClickListener {
+            if (isPasswordVisible) {
+                binding.etPassword.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.ivTogglePassword.setImageResource(R.drawable.ic_eye_closed)
+                isPasswordVisible = false
+            } else {
+                binding.etPassword.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.ivTogglePassword.setImageResource(R.drawable.ic_eye_open)
+                isPasswordVisible = true
+            }
+            binding.etPassword.setSelection(binding.etPassword.text!!.length)
+        }
+
+        // === Toggle untuk Confirm Password ===
+        binding.ivToggleConfirmPassword.setOnClickListener {
+            if (isConfirmPasswordVisible) {
+                binding.etConfirmPassword.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.ivToggleConfirmPassword.setImageResource(R.drawable.ic_eye_closed)
+                isConfirmPasswordVisible = false
+            } else {
+                binding.etConfirmPassword.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.ivToggleConfirmPassword.setImageResource(R.drawable.ic_eye_open)
+                isConfirmPasswordVisible = true
+            }
+            binding.etConfirmPassword.setSelection(binding.etConfirmPassword.text!!.length)
+        }
+
     }
 }

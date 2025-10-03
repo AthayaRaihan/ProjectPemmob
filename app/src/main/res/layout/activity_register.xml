@@ -44,9 +44,9 @@
             android:layout_marginBottom="12dp">
 
             <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:src="@drawable/ic_users"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_userlogin"
                 android:contentDescription="User Icon" />
 
             <EditText
@@ -73,8 +73,8 @@
             android:layout_marginBottom="12dp">
 
             <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_emailusers"
                 android:contentDescription="Email Icon" />
 
@@ -102,8 +102,8 @@
             android:layout_marginBottom="12dp">
 
             <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_lock"
                 android:contentDescription="Lock Icon" />
 
@@ -122,8 +122,8 @@
 
             <ImageView
                 android:id="@+id/ivTogglePassword"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_eye_closed"
                 android:contentDescription="Toggle Password" />
         </LinearLayout>
@@ -138,8 +138,8 @@
             android:paddingHorizontal="12dp">
 
             <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_lock"
                 android:contentDescription="Confirm Lock Icon" />
 
@@ -158,8 +158,8 @@
 
             <ImageView
                 android:id="@+id/ivToggleConfirmPassword"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@drawable/ic_eye_closed"
                 android:contentDescription="Toggle Confirm Password" />
         </LinearLayout>
