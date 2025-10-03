@@ -2,6 +2,7 @@ package com.example.projectpemmob
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -16,6 +17,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var firebaseAuth:FirebaseAuth
+    private var isPasswordVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -52,6 +54,21 @@ class LoginActivity : AppCompatActivity() {
         tvRegister.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.ivTogglePassword.setOnClickListener {
+            if (isPasswordVisible) {
+                // sembunyikan password
+                binding.etPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.ivTogglePassword.setImageResource(R.drawable.ic_eye_closed)
+                isPasswordVisible = false
+            } else {
+                // tampilkan password
+                binding.etPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.ivTogglePassword.setImageResource(R.drawable.ic_eye_open)
+                isPasswordVisible = true
+            }
+            binding.etPassword.setSelection(binding.etPassword.text.length) // cursor tetap di akhir
         }
     }
 }

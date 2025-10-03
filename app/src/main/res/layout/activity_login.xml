@@ -101,6 +101,7 @@
                 android:layout_height="20dp"
                 android:src="@drawable/ic_eye_closed"
                 android:contentDescription="Toggle Password" />
+
         </LinearLayout>
 
 
