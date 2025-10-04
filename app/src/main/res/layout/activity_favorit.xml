@@ -1,38 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#E5FFF9">
+    android:layout_height="wrap_content"
+    android:background="@color/light_background"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <!-- Header Section with Background Image -->
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="320dp">
 
-        <!-- Header Section -->
+        <!-- Background Image -->
+        <ImageView
+            android:id="@+id/header_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/listdestinasi" />
+
+        <!-- Gradient Overlay -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/header_gradient" />
+
+        <!-- Header Content -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/header_gradient"
+            android:layout_centerVertical="true"
+            android:gravity="center"
             android:orientation="vertical"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:paddingBottom="30dp"
-            android:paddingTop="50dp">
+            android:paddingHorizontal="20dp">
 
             <!-- Title -->
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wisata Favorit Anda"
                 android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textSize="24sp"
+                android:textColor="@android:color/white"
+                android:textSize="28sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="20dp" />
-
-            <!-- Search Bar -->
+                android:layout_marginBottom="20dp"
+                android:shadowColor="#80000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="4" />            <!-- Search Bar -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -53,9 +67,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:hint="Cari wisata di Kabupaten Wonosobo..."
+                    android:hint="Cari wisata favorit Anda..."
                     android:textColorHint="@color/hint_color"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textColor="@color/dark_text" />
 
             </LinearLayout>
 
@@ -64,133 +79,73 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="4">
+                android:gravity="center">
 
-                <TextView
-                    android:id="@+id/btn_bukit"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="4dp"
-                    android:background="@drawable/filter_button_selected"
-                    android:gravity="center"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="8dp"
-                    android:text="Bukit"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/btn_telaga"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp"
-                    android:background="@drawable/filter_button"
-                    android:gravity="center"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="8dp"
-                    android:text="Telaga"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/btn_curug"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp"
-                    android:background="@drawable/filter_button"
-                    android:gravity="center"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="8dp"
-                    android:text="Curug"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/btn_agrowisata"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="4dp"
-                    android:background="@drawable/filter_button"
-                    android:gravity="center"
-                    android:paddingHorizontal="12dp"
-                    android:paddingVertical="8dp"
-                    android:text="Agrowisata"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <!-- Content Section -->
+    </RelativeLayout>
+
+    <!-- Content Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="30dp">
+
+        <!-- Empty State -->
         <LinearLayout
+            android:id="@+id/empty_state_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:gravity="center"
+            android:paddingVertical="60dp"
+            android:visibility="visible">
 
-            <!-- Empty State -->
-            <LinearLayout
-                android:id="@+id/empty_state_layout"
-                android:layout_width="match_parent"
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_heart"
+                android:layout_marginBottom="20dp"
+                android:alpha="0.3" />
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:paddingVertical="60dp"
-                android:visibility="visible">
+                android:text="Belum Ada Wisata Favorit"
+                android:textColor="@color/dark_text"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
 
-                <ImageView
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:src="@drawable/ic_heart_empty"
-                    android:layout_marginBottom="20dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Belum Ada Wisata Favorit"
-                    android:textColor="@color/dark_text"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="8dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tambahkan wisata ke favorit dengan menekan icon love ❤️"
-                    android:textColor="@color/hint_color"
-                    android:textSize="14sp"
-                    android:textAlignment="center"
-                    android:layout_marginHorizontal="40dp" />
-
-            </LinearLayout>
-
-            <!-- Favorit List -->
-            <LinearLayout
-                android:id="@+id/favorit_list_layout"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
-                
-                <!-- Cards will be added dynamically here -->
-
-            </LinearLayout>
+                android:text="Tambahkan wisata ke favorit dengan menekan icon love ❤️"
+                android:textColor="@color/hint_color"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:layout_marginHorizontal="40dp" />
 
         </LinearLayout>
 
-        <!-- Bottom Navigation Spacer -->
-        <View
+        <!-- Favorit List -->
+        <LinearLayout
+            android:id="@+id/favorit_list_layout"
             android:layout_width="match_parent"
-            android:layout_height="100dp" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+            
+            <!-- Cards will be added dynamically here -->
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</androidx.core.widget.NestedScrollView>
+</LinearLayout>

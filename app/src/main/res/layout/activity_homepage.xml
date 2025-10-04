@@ -215,14 +215,15 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent">
 
-                                    <!-- Heart Icon -->
                                     <ImageView
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:scaleType="centerCrop"
                                         android:src="@drawable/background_login" />
 
+                                    <!-- Heart Icon -->
                                     <ImageView
+                                        android:id="@+id/heart_homepage_dieng_1"
                                         android:layout_width="24dp"
                                         android:layout_height="24dp"
                                         android:layout_alignParentTop="true"
@@ -315,14 +316,15 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent">
 
-                                    <!-- Heart Icon -->
                                     <ImageView
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:scaleType="centerCrop"
                                         android:src="@drawable/background_login" />
 
+                                    <!-- Heart Icon -->
                                     <ImageView
+                                        android:id="@+id/heart_homepage_dieng_2"
                                         android:layout_width="24dp"
                                         android:layout_height="24dp"
                                         android:layout_alignParentTop="true"
@@ -546,28 +548,11 @@
                                 app:cardCornerRadius="12dp"
                                 app:cardElevation="0dp">
 
-                                <RelativeLayout
+                                <ImageView
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent">
-
-                                    <ImageView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:scaleType="centerCrop"
-                                        android:src="@drawable/culinary_noodles" />
-
-                                    <!-- Heart Icon -->
-                                    <ImageView
-                                        android:layout_width="24dp"
-                                        android:layout_height="24dp"
-                                        android:layout_alignParentTop="true"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_margin="8dp"
-                                        android:src="@drawable/ic_heart"
-                                        android:background="@drawable/circle_white_background"
-                                        android:padding="6dp" />
-
-                                </RelativeLayout>
+                                    android:layout_height="match_parent"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/culinary_noodles" />
 
                             </androidx.cardview.widget.CardView>
 
@@ -645,28 +630,11 @@
                                 app:cardCornerRadius="12dp"
                                 app:cardElevation="0dp">
 
-                                <RelativeLayout
+                                <ImageView
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent">
-
-                                    <ImageView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:scaleType="centerCrop"
-                                        android:src="@drawable/culinary_noodles" />
-
-                                    <!-- Heart Icon -->
-                                    <ImageView
-                                        android:layout_width="24dp"
-                                        android:layout_height="24dp"
-                                        android:layout_alignParentTop="true"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_margin="8dp"
-                                        android:src="@drawable/ic_heart"
-                                        android:background="@drawable/circle_white_background"
-                                        android:padding="6dp" />
-
-                                </RelativeLayout>
+                                    android:layout_height="match_parent"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/culinary_noodles" />
 
                             </androidx.cardview.widget.CardView>
 

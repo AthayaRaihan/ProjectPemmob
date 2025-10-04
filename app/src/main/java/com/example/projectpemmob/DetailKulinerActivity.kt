@@ -1,162 +1,75 @@
 package com.example.projectpemmob
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 class DetailKulinerActivity : AppCompatActivity() {
+    
+    private var currentKulinerData: HashMap<String, String>? = null
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail_kuliner_main)
+        setContentView(R.layout.activity_detail_kuliner)
         
         // Get data from intent
-        val namaKuliner = intent.getStringExtra("nama_kuliner") ?: "Kuliner Wonosobo"
+        val namaKuliner = intent.getStringExtra("nama_kuliner") ?: "Gudeg Yu Djum"
         val rating = intent.getStringExtra("rating") ?: "4.5"
-        val lokasi = intent.getStringExtra("lokasi") ?: "Wonosobo, Jawa Tengah"
+        val lokasi = intent.getStringExtra("lokasi") ?: "Yogyakarta, Jawa Tengah"
+        val description = intent.getStringExtra("description") ?: "Gudeg Yu Djum adalah salah satu kuliner khas Yogyakarta yang sangat terkenal. Dengan cita rasa manis gurih yang khas, gudeg ini menggunakan resep turun temurun yang telah diwariskan sejak puluhan tahun."
         
-        // Setup UI dengan data
-        setupDetailKuliner(namaKuliner, rating, lokasi)
+        // Store current kuliner data
+        currentKulinerData = hashMapOf(
+            "nama_kuliner" to namaKuliner,
+            "rating" to rating,
+            "lokasi" to lokasi,
+            "description" to description
+        )
         
-        // Setup bottom navigation
-        setupBottomNavigation()
+        // Setup views
+        setupViews(namaKuliner, rating, lokasi, description)
         
-        // Setup heart icon
-        setupHeartIcon(namaKuliner, rating, lokasi)
-        
-        // Setup back button
+        // Setup buttons
         setupBackButton()
+        setupMapsButton()
     }
     
-    override fun onResume() {
-        super.onResume()
-        // Update heart icon when returning to this activity
-        val namaKuliner = intent.getStringExtra("nama_kuliner") ?: "Kuliner Wonosobo"
-        val rating = intent.getStringExtra("rating") ?: "4.5"
-        val lokasi = intent.getStringExtra("lokasi") ?: "Wonosobo, Jawa Tengah"
-        updateHeartIcon(namaKuliner, rating, lokasi)
-    }
-    
-    private fun setupDetailKuliner(namaKuliner: String, rating: String, lokasi: String) {
-        // Set nama kuliner
-        findViewById<TextView>(R.id.tv_nama_kuliner)?.text = namaKuliner
-        
-        // Set rating
-        findViewById<TextView>(R.id.tv_rating_kuliner)?.text = rating
-        
-        // Set lokasi
-        findViewById<TextView>(R.id.tv_lokasi_kuliner)?.text = lokasi
-        
-        // Set gambar berdasarkan nama kuliner
-        val imageView = findViewById<ImageView>(R.id.img_kuliner_main)
-        when {
-            namaKuliner.contains("Mie Ongklok", ignoreCase = true) -> 
-                imageView?.setImageResource(R.drawable.culinary_noodles)
-            namaKuliner.contains("Dawet", ignoreCase = true) -> 
-                imageView?.setImageResource(R.drawable.culinary_noodles)
-            namaKuliner.contains("Sate", ignoreCase = true) -> 
-                imageView?.setImageResource(R.drawable.culinary_1)
-            else -> 
-                imageView?.setImageResource(R.drawable.culinary_noodles)
-        }
-        
-        // Set deskripsi berdasarkan nama kuliner
-        val deskripsi = when {
-            namaKuliner.contains("Mie Ongklok", ignoreCase = true) -> 
-                "Mie Ongklok adalah kuliner khas Wonosobo yang terbuat dari mie tebal dengan kuah gurih dan sayuran segar. Kuliner ini sudah sangat terkenal di kalangan masyarakat Indonesia karena cita rasanya yang autentik dan bahan-bahan berkualitas tinggi dari dataran tinggi Dieng yang memberikan kesegaran dan kelezatan yang tak terlupakan."
-            namaKuliner.contains("Dawet", ignoreCase = true) -> 
-                "Es Dawet Ayu adalah minuman tradisional khas Wonosobo dengan cendol kenyal, santan segar, dan gula jawa yang manis. Minuman ini sangat cocok dinikmati di cuaca dingin pegunungan Dieng, memberikan kesegaran yang menyehatkan dan cita rasa manis yang autentik dari warisan kuliner Jawa Tengah."
-            namaKuliner.contains("Sate Buntel", ignoreCase = true) -> 
-                "Sate Buntel adalah kuliner unik khas Wonosobo dengan daging cincang yang dibungkus lemak dan dibakar hingga harum. Kuliner ini memiliki cita rasa yang khas dan berbeda dari sate pada umumnya, dengan bumbu kacang yang gurih dan pedas yang menggugah selera."
-            else -> 
-                "Kuliner khas Wonosobo dengan cita rasa yang autentik dan bahan-bahan berkualitas tinggi dari dataran tinggi Dieng. Nikmati kelezatan kuliner tradisional yang telah turun temurun dengan resep rahasia yang memberikan pengalaman kuliner yang tak terlupakan."
-        }
-        findViewById<TextView>(R.id.tv_deskripsi_kuliner)?.text = deskripsi
-    }
-    
-    private fun setupBottomNavigation() {
-        try {
-            // Icon Home untuk kembali ke homepage
-            findViewById<android.widget.LinearLayout>(R.id.ll_home)?.setOnClickListener {
-                val intent = Intent(this, HomepageActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-            
-            // Icon Location untuk ke halaman wisata
-            findViewById<android.widget.LinearLayout>(R.id.ll_location)?.setOnClickListener {
-                val intent = Intent(this, WisataActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-            
-            // Icon Restaurant untuk ke halaman kuliner
-            findViewById<android.widget.LinearLayout>(R.id.ll_restaurant)?.setOnClickListener {
-                val intent = Intent(this, KulinerActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-            
-            // Icon Favorites untuk ke halaman favorit
-            findViewById<android.widget.LinearLayout>(R.id.ll_favorites)?.setOnClickListener {
-                val intent = Intent(this, FavoritActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-            
-            // Icon Profile - placeholder untuk fitur masa depan
-            findViewById<android.widget.LinearLayout>(R.id.ll_profile)?.setOnClickListener {
-                // Placeholder untuk halaman profile (belum dibuat)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-    
-    private fun setupHeartIcon(namaKuliner: String, rating: String, lokasi: String) {
-        val heartIcon = findViewById<ImageView>(R.id.heart_detail_kuliner)
-        
-        if (heartIcon != null) {
-            // Set initial state
-            updateHeartIcon(namaKuliner, rating, lokasi)
-            
-            // Set click listener
-            heartIcon.setOnClickListener {
-                toggleFavorit(namaKuliner, rating, lokasi)
-            }
-        }
-    }
-    
-    private fun updateHeartIcon(namaKuliner: String, rating: String, lokasi: String) {
-        val heartIcon = findViewById<ImageView>(R.id.heart_detail_kuliner)
-        if (heartIcon != null) {
-            if (FavoritManager.isFavorit(this, namaKuliner, rating, lokasi)) {
-                heartIcon.setImageResource(R.drawable.ic_heart_filled)
-            } else {
-                heartIcon.setImageResource(R.drawable.ic_heart)
-            }
-        }
-    }
-    
-    private fun toggleFavorit(namaKuliner: String, rating: String, lokasi: String) {
-        val heartIcon = findViewById<ImageView>(R.id.heart_detail_kuliner)
-        if (heartIcon != null) {
-            if (FavoritManager.isFavorit(this, namaKuliner, rating, lokasi)) {
-                // Remove from favorit
-                FavoritManager.removeFromFavorit(this, namaKuliner, rating, lokasi)
-                heartIcon.setImageResource(R.drawable.ic_heart)
-            } else {
-                // Add to favorit
-                FavoritManager.addToFavorit(this, namaKuliner, rating, lokasi)
-                heartIcon.setImageResource(R.drawable.ic_heart_filled)
-            }
-        }
+    private fun setupViews(namaKuliner: String, rating: String, lokasi: String, description: String) {
+        findViewById<TextView>(R.id.tv_nama_kuliner).text = namaKuliner
+        findViewById<TextView>(R.id.tv_rating).text = rating
+        findViewById<TextView>(R.id.tv_location).text = lokasi
+        findViewById<TextView>(R.id.tv_description).text = description
     }
     
     private fun setupBackButton() {
-        findViewById<ImageView>(R.id.btn_back)?.setOnClickListener {
-            finish() // Kembali ke activity sebelumnya
+        findViewById<ImageView>(R.id.btn_back).setOnClickListener {
+            finish()
+        }
+    }
+    
+    private fun setupMapsButton() {
+        findViewById<ImageView>(R.id.btnOpenMaps).setOnClickListener {
+            // Open location in Google Maps
+            // Using Yogyakarta coordinates as example for culinary
+            val latitude = -7.7956 // Yogyakarta latitude
+            val longitude = 110.3695 // Yogyakarta longitude
+            val namaKuliner = currentKulinerData?.get("nama_kuliner") ?: "Kuliner"
+            
+            val uri = "geo:$latitude,$longitude?q=$latitude,$longitude($namaKuliner)"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+            intent.setPackage("com.google.android.apps.maps")
+            
+            if (intent.resolveActivity(packageManager) != null) {
+                startActivity(intent)
+            } else {
+                // If Google Maps is not installed, open in browser
+                val browserUri = "https://www.google.com/maps/search/?api=1&query=$latitude,$longitude"
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(browserUri))
+                startActivity(browserIntent)
+            }
         }
     }
 }

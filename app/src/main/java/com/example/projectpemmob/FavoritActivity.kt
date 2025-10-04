@@ -15,7 +15,7 @@ class FavoritActivity : AppCompatActivity() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_favorit_main)
+        setContentView(R.layout.activity_favorit)
         
         // Initialize views
         emptyStateLayout = findViewById(R.id.empty_state_layout)
@@ -35,8 +35,7 @@ class FavoritActivity : AppCompatActivity() {
     }
     
     private fun loadFavoritData() {
-        val sharedPreferences = getSharedPreferences("favorit_wisata", MODE_PRIVATE)
-        val favoritSet = sharedPreferences.getStringSet("favorit_list", setOf()) ?: setOf()
+        val favoritSet = FavoritManager.getFavoritList(this)
         
         if (favoritSet.isEmpty()) {
             // Show empty state
@@ -85,15 +84,7 @@ class FavoritActivity : AppCompatActivity() {
     }
     
     private fun removeFromFavorit(namaWisata: String, rating: String, lokasi: String) {
-        val sharedPreferences = getSharedPreferences("favorit_wisata", MODE_PRIVATE)
-        val favoritSet = sharedPreferences.getStringSet("favorit_list", setOf())?.toMutableSet() ?: mutableSetOf()
-        
-        val itemToRemove = "$namaWisata|$rating|$lokasi"
-        favoritSet.remove(itemToRemove)
-        
-        sharedPreferences.edit()
-            .putStringSet("favorit_list", favoritSet)
-            .apply()
+        FavoritManager.removeFromFavorit(this, namaWisata, rating, lokasi)
         
         // Refresh the list
         loadFavoritData()
@@ -135,9 +126,10 @@ class FavoritActivity : AppCompatActivity() {
                 // Sudah di halaman favorit, tidak perlu navigasi
             }
             
-            // Icon Profile - placeholder untuk fitur masa depan
+            // Icon Profile untuk navigasi ke halaman profile
             findViewById<LinearLayout>(R.id.ll_profile)?.setOnClickListener {
-                // Placeholder untuk halaman profile (belum dibuat)
+                val intent = Intent(this, ProfileActivity::class.java)
+                startActivity(intent)
             }
         } catch (e: Exception) {
             e.printStackTrace()
