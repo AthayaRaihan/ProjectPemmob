@@ -2,13 +2,33 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/light_background">
 
-    <!-- Main Content -->
-    <include layout="@layout/activity_homepage" />
+    <!-- Main Content Container -->
+    <ScrollView
+        android:id="@+id/main_content_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_navigation_container">
+
+        <!-- Content will be loaded here dynamically -->
+        <LinearLayout
+            android:id="@+id/content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Default Home Content -->
+            <include layout="@layout/activity_homepage" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <!-- Bottom Navigation -->
     <LinearLayout
+        android:id="@+id/bottom_navigation_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -21,6 +41,7 @@
 
         <!-- Home -->
         <LinearLayout
+            android:id="@+id/ll_home"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -28,9 +49,10 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/iv_home"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_home_selected" />
+                android:src="@drawable/ic_home" />
 
         </LinearLayout>
 
@@ -44,6 +66,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/iv_location"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_location" />
@@ -60,6 +83,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/iv_favorites"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_favorites" />
@@ -76,14 +100,18 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/iv_restaurant"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_restaurant" />
 
         </LinearLayout>
 
+
+
         <!-- Profile -->
         <LinearLayout
+            android:id="@+id/ll_profile"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -91,6 +119,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/iv_profile"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_profile" />

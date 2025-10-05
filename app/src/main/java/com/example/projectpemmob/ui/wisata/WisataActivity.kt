@@ -11,12 +11,13 @@ import com.example.projectpemmob.ui.detail.wisata.DetailWisataActivity
 import com.example.projectpemmob.ui.home.HomepageActivity
 import com.example.projectpemmob.ui.kuliner.KulinerActivity
 import com.example.projectpemmob.ui.favorit.FavoritActivity
+import com.example.projectpemmob.ui.profil.ProfileActivity
 import com.example.projectpemmob.utils.FavoritManager
 
 class WisataActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_wisata_main)
+        setContentView(R.layout.activity_wisata)
 
         // Setup bottom navigation
         setupBottomNavigation()
@@ -37,32 +38,33 @@ class WisataActivity : AppCompatActivity() {
     private fun setupBottomNavigation() {
         try {
             // Icon Home untuk kembali ke homepage
-            findViewById<LinearLayout>(R.id.ll_home)?.setOnClickListener {
+            findViewById<android.widget.LinearLayout>(R.id.ll_home)?.setOnClickListener {
                 val intent = Intent(this, HomepageActivity::class.java)
                 startActivity(intent)
                 finish() // Tutup activity wisata
             }
 
             // Icon Location - sudah di halaman wisata, tidak perlu action
-            findViewById<LinearLayout>(R.id.ll_location)?.setOnClickListener {
+            findViewById<android.widget.LinearLayout>(R.id.ll_location)?.setOnClickListener {
                 // Sudah di halaman wisata, tidak perlu navigasi
             }
 
             // Icon Restaurant untuk ke halaman kuliner
-            findViewById<LinearLayout>(R.id.ll_restaurant)?.setOnClickListener {
+            findViewById<android.widget.LinearLayout>(R.id.ll_restaurant)?.setOnClickListener {
                 val intent = Intent(this, KulinerActivity::class.java)
                 startActivity(intent)
             }
 
             // Icon Favorites untuk ke halaman favorit
-            findViewById<LinearLayout>(R.id.ll_favorites)?.setOnClickListener {
+            findViewById<android.widget.LinearLayout>(R.id.ll_favorites)?.setOnClickListener {
                 val intent = Intent(this, FavoritActivity::class.java)
                 startActivity(intent)
             }
 
-            // Icon Profile - placeholder untuk fitur masa depan
-            findViewById<LinearLayout>(R.id.ll_profile)?.setOnClickListener {
-                // Placeholder untuk halaman profile (belum dibuat)
+            // Icon Profile untuk navigasi ke halaman profile
+            findViewById<android.widget.LinearLayout>(R.id.ll_profile)?.setOnClickListener {
+                val intent = Intent(this, ProfileActivity::class.java)
+                startActivity(intent)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -71,19 +73,16 @@ class WisataActivity : AppCompatActivity() {
 
     private fun setupCardClickListeners() {
         // Card Wisata click listeners - Menggunakan ID yang akan ditambahkan ke layout
-        findViewById<CardView>(R.id.card_dieng_1).setOnClickListener {
+        findViewById<androidx.cardview.widget.CardView>(R.id.card_dieng_1).setOnClickListener {
             openDetailWisata("Dieng Plateau", "4.8", "Kalimanah, Wonosobo, Jawa Tengah")
         }
 
-        findViewById<CardView>(R.id.card_dieng_2).setOnClickListener {
-            openDetailWisata("Dieng Plateau", "4.8", "Kalimanah, Wonosobo, Jawa Tengah")
-        }
 
-        findViewById<CardView>(R.id.card_sikidang).setOnClickListener {
+        findViewById<androidx.cardview.widget.CardView>(R.id.card_sikidang).setOnClickListener {
             openDetailWisata("Kawah Sikidang", "4.5", "Dieng, Wonosobo, Jawa Tengah")
         }
 
-        findViewById<CardView>(R.id.card_telaga_warna).setOnClickListener {
+        findViewById<androidx.cardview.widget.CardView>(R.id.card_telaga_warna).setOnClickListener {
             openDetailWisata("Telaga Warna", "4.7", "Dieng, Wonosobo, Jawa Tengah")
         }
     }
@@ -99,7 +98,7 @@ class WisataActivity : AppCompatActivity() {
     private fun setupHeartIconListeners() {
         // Heart icon listeners untuk setiap card wisata
         setupHeartIcon(R.id.heart_dieng_1, "Dieng Plateau", "4.8", "Kalimanah, Wonosobo, Jawa Tengah")
-        setupHeartIcon(R.id.heart_dieng_2, "Dieng Plateau", "4.8", "Kalimanah, Wonosobo, Jawa Tengah")
+
         setupHeartIcon(R.id.heart_sikidang, "Kawah Sikidang", "4.5", "Dieng, Wonosobo, Jawa Tengah")
         setupHeartIcon(R.id.heart_telaga_warna, "Telaga Warna", "4.7", "Dieng, Wonosobo, Jawa Tengah")
     }
@@ -138,7 +137,6 @@ class WisataActivity : AppCompatActivity() {
 
     private fun updateAllHeartIcons() {
         updateHeartIcon(findViewById(R.id.heart_dieng_1), "Dieng Plateau", "4.8", "Kalimanah, Wonosobo, Jawa Tengah")
-        updateHeartIcon(findViewById(R.id.heart_dieng_2), "Dieng Plateau", "4.8", "Kalimanah, Wonosobo, Jawa Tengah")
         updateHeartIcon(findViewById(R.id.heart_sikidang), "Kawah Sikidang", "4.5", "Dieng, Wonosobo, Jawa Tengah")
         updateHeartIcon(findViewById(R.id.heart_telaga_warna), "Telaga Warna", "4.7", "Dieng, Wonosobo, Jawa Tengah")
     }
