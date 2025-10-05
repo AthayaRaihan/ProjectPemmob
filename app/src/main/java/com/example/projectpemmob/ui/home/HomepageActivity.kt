@@ -34,16 +34,25 @@ import com.example.projectpemmob.utils.FavoritManager
                 super.onCreate(savedInstanceState)
                 setContentView(R.layout.activity_main_home)
 
-                val tvGreetingName = findViewById<TextView>(R.id.tvGreetingName)
-
-                // Ambil user yang login
-                val user = FirebaseAuth.getInstance().currentUser
-
-                val displayName = user?.displayName ?: "User" // fallback kalau null
-                tvGreetingName.text = "Hai $displayName,"
-
                 initViews()
                 setupBottomNavigation()
+                loadHomeContent() // Load home content first so we can find the TextView
+                
+                // Find TextView in the loaded home content
+                contentLayout.findViewById<TextView>(R.id.tvGreetingName)?.let { tvGreetingName ->
+                    // Ambil user yang login
+                    val user = FirebaseAuth.getInstance().currentUser
+                    
+                    // Get display name from current user, fallback to "User" if not logged in or no display name
+                    val displayName = when {
+                        user?.displayName != null && user.displayName!!.isNotEmpty() -> user.displayName
+                        user?.email != null -> user.email?.substringBefore("@") // Gunakan email sebagai fallback
+                        else -> "User"
+                    }
+                    
+                    tvGreetingName.text = "Hai $displayName,"
+                }
+                
                 setupCardClickListeners()
 
                 // Load home content by default and set icon state
@@ -150,6 +159,18 @@ import com.example.projectpemmob.utils.FavoritManager
                 val inflater = LayoutInflater.from(this)
                 val homeView = inflater.inflate(R.layout.activity_homepage, contentLayout, false)
                 contentLayout.addView(homeView)
+                
+                // Update greeting text when loading home content
+                homeView.findViewById<TextView>(R.id.tvGreetingName)?.let { tvGreetingName ->
+                    val user = FirebaseAuth.getInstance().currentUser
+                    val displayName = when {
+                        user?.displayName != null && user.displayName!!.isNotEmpty() -> user.displayName
+                        user?.email != null -> user.email?.substringBefore("@")
+                        else -> "User"
+                    }
+                    tvGreetingName.text = "Hai $displayName,"
+                }
+                
                 setupCardClickListeners()
             }
 
