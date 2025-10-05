@@ -3,4 +3,6 @@
     <string name="title_activity_register">RegisterActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <!-- Web client ID dari google-services.json -->
+    <string name="default_web_client_id">471228196797-3de4edk9d6g9njgeuu6ajetl3hm2s9rc.apps.googleusercontent.com</string>
 </resources>

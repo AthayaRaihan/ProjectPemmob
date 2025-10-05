@@ -34,14 +34,7 @@ import com.example.projectpemmob.utils.FavoritManager
                 super.onCreate(savedInstanceState)
                 setContentView(R.layout.activity_main_home)
 
-                val tvGreetingName = findViewById<TextView>(R.id.tvGreetingName)
-
-                // Ambil user yang login
-                val user = FirebaseAuth.getInstance().currentUser
-
-                val displayName = user?.displayName ?: "User" // fallback kalau null
-                tvGreetingName.text = "Hai $displayName,"
-
+                // Initialize views first
                 initViews()
                 setupBottomNavigation()
                 setupCardClickListeners()
@@ -49,10 +42,99 @@ import com.example.projectpemmob.utils.FavoritManager
                 // Load home content by default and set icon state
                 loadHomeContent()
                 updateBottomNavigation("home")
+                
+                // Load user info dengan delay untuk memastikan Firebase siap
+                android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+                    loadUserInfo()
+                }, 1000) // Delay 1 detik
+            }
+
+            private fun loadUserInfo() {
+                val tvGreetingName = findViewById<TextView>(R.id.tvGreetingName)
+                val auth = FirebaseAuth.getInstance()
+                val user = auth.currentUser
+
+                android.util.Log.d("HomepageActivity", "=== USER INFO DEBUG ===")
+                android.util.Log.d("HomepageActivity", "User exists: ${user != null}")
+                
+                if (user != null) {
+                    android.util.Log.d("HomepageActivity", "User UID: ${user.uid}")
+                    android.util.Log.d("HomepageActivity", "User Email: ${user.email}")
+                    android.util.Log.d("HomepageActivity", "User DisplayName: ${user.displayName}")
+                    android.util.Log.d("HomepageActivity", "User DisplayName isEmpty: ${user.displayName.isNullOrEmpty()}")
+                    
+                    // Coba reload user dulu
+                    user.reload().addOnCompleteListener { reloadTask ->
+                        android.util.Log.d("HomepageActivity", "Reload task successful: ${reloadTask.isSuccessful}")
+                        
+                        val refreshedUser = auth.currentUser
+                        android.util.Log.d("HomepageActivity", "After reload - DisplayName: ${refreshedUser?.displayName}")
+                        
+                        updateGreetingText(tvGreetingName, refreshedUser)
+                    }.addOnFailureListener { exception ->
+                        android.util.Log.e("HomepageActivity", "Reload failed: ${exception.message}")
+                        updateGreetingText(tvGreetingName, user)
+                    }
+                } else {
+                    android.util.Log.d("HomepageActivity", "No user logged in")
+                    tvGreetingName.text = "Hai User,"
+                }
+            }
+
+            private fun updateGreetingText(tvGreetingName: TextView, user: com.google.firebase.auth.FirebaseUser?) {
+                android.util.Log.d("HomepageActivity", "=== UPDATE GREETING TEXT ===")
+                
+                if (user == null) {
+                    android.util.Log.d("HomepageActivity", "User is null, using default")
+                    tvGreetingName.text = "Hai User,"
+                    return
+                }
+                
+                android.util.Log.d("HomepageActivity", "User UID: ${user.uid}")
+                android.util.Log.d("HomepageActivity", "Display Name: '${user.displayName}'")
+                android.util.Log.d("HomepageActivity", "Email: '${user.email}'")
+                android.util.Log.d("HomepageActivity", "DisplayName isNullOrEmpty: ${user.displayName.isNullOrEmpty()}")
+                android.util.Log.d("HomepageActivity", "DisplayName isBlank: ${user.displayName.isNullOrBlank()}")
+                
+                val displayName = when {
+                    !user.displayName.isNullOrBlank() -> {
+                        val name = user.displayName!!.trim()
+                        android.util.Log.d("HomepageActivity", "Using displayName: '$name'")
+                        name
+                    }
+                    !user.email.isNullOrEmpty() -> {
+                        val emailPart = user.email!!.split("@")[0]
+                        val capitalizedEmail = emailPart.replaceFirstChar { char ->
+                            if (char.isLowerCase()) char.titlecase() else char.toString()
+                        }
+                        android.util.Log.d("HomepageActivity", "Using email name: '$capitalizedEmail'")
+                        capitalizedEmail
+                    }
+                    else -> {
+                        android.util.Log.d("HomepageActivity", "Using fallback: User")
+                        "User"
+                    }
+                }
+                
+                val finalText = "Hai $displayName,"
+                android.util.Log.d("HomepageActivity", "Final text: '$finalText'")
+                
+                // Update UI di main thread
+                runOnUiThread {
+                    tvGreetingName.text = finalText
+                }
             }
 
             override fun onResume() {
                 super.onResume()
+                
+                android.util.Log.d("HomepageActivity", "=== onResume called ===")
+                
+                // Refresh user info when returning to activity dengan delay
+                android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+                    loadUserInfo()
+                }, 500)
+                
                 // Refresh current content when returning to this activity
                 when (currentPage) {
                     "home" -> {
@@ -67,6 +149,19 @@ import com.example.projectpemmob.utils.FavoritManager
                         loadTourismContent()
                         updateBottomNavigation("tourism")
                     }
+                }
+            }
+            
+            // Method untuk test manual - bisa dipanggil dari button jika perlu
+            private fun testUserInfo() {
+                val user = FirebaseAuth.getInstance().currentUser
+                android.util.Log.d("HomepageActivity", "=== MANUAL TEST ===")
+                android.util.Log.d("HomepageActivity", "User: $user")
+                if (user != null) {
+                    android.util.Log.d("HomepageActivity", "UID: ${user.uid}")
+                    android.util.Log.d("HomepageActivity", "Email: ${user.email}")
+                    android.util.Log.d("HomepageActivity", "DisplayName: '${user.displayName}'")
+                    android.util.Log.d("HomepageActivity", "IsAnonymous: ${user.isAnonymous}")
                 }
             }
 
