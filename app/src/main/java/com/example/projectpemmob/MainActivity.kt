@@ -6,6 +6,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.projectpemmob.ui.auth.LoginActivity
+import com.example.projectpemmob.ui.home.HomepageActivity
 import com.google.android.material.button.MaterialButton
 
 class MainActivity : AppCompatActivity() {

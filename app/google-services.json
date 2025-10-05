@@ -12,7 +12,20 @@
           "package_name": "com.example.projectpemmob"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "471228196797-49hv4hsk5910nsu327dgi8dta7tqs04i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.projectpemmob",
+            "certificate_hash": "02e07134d52ad3748dc2aeb95d12182fd462cb6a"
+          }
+        },
+        {
+          "client_id": "471228196797-3de4edk9d6g9njgeuu6ajetl3hm2s9rc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCxvbwxCzsy7xXxDX6u_kvd1vXpJyPPAbE"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "471228196797-3de4edk9d6g9njgeuu6ajetl3hm2s9rc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

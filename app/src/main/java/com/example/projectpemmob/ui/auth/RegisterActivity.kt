@@ -1,4 +1,4 @@
-package com.example.projectpemmob
+package com.example.projectpemmob.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,9 +6,11 @@ import android.text.InputType
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.projectpemmob.R
 import com.example.projectpemmob.databinding.ActivityRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.auth.userProfileChangeRequest
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -38,7 +40,7 @@ class RegisterActivity : AppCompatActivity() {
                         .addOnCompleteListener {
                             if (it.isSuccessful) {
                                 val user = firebaseAuth.currentUser
-                                val profileUpdates = com.google.firebase.auth.userProfileChangeRequest {
+                                val profileUpdates = userProfileChangeRequest {
                                     displayName = name
                                 }
                                 user?.updateProfile(profileUpdates)?.addOnCompleteListener { updateTask ->
