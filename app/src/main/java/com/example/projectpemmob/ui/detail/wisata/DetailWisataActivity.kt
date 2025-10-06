@@ -14,6 +14,8 @@ import com.example.projectpemmob.ui.home.HomepageActivity
 import com.example.projectpemmob.ui.kuliner.KulinerActivity
 import com.example.projectpemmob.ui.wisata.WisataActivity
 import com.example.projectpemmob.utils.FavoritManager
+import com.google.firebase.auth.FirebaseAuth
+import com.example.projectpemmob.ui.auth.LoginActivity
 
 class DetailWisataActivity : AppCompatActivity() {
 
@@ -45,8 +47,10 @@ class DetailWisataActivity : AppCompatActivity() {
         setupFavoritButton()
         setupMapsButton()
 
-        // Update favorit button state
-        updateFavoritButtonState()
+        // Load per-user favorites first then update button state
+        com.example.projectpemmob.utils.FavoritManager.loadForCurrentUser(this) {
+            updateFavoritButtonState()
+        }
     }
 
     private fun setupViews(namaWisata: String, rating: String, lokasi: String, description: String) {
@@ -64,6 +68,21 @@ class DetailWisataActivity : AppCompatActivity() {
 
     private fun setupFavoritButton() {
         findViewById<ImageView>(R.id.btn_favorite).setOnClickListener {
+            // If user not logged in, prompt to login before allowing favorit actions
+            val currentUser = FirebaseAuth.getInstance().currentUser
+            if (currentUser == null) {
+                androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setTitle("Perlu Login")
+                    .setMessage("Anda harus login jika ingin menambahkan favorit.")
+                    .setPositiveButton("OK") { _, _ ->
+                        val intent = Intent(this, LoginActivity::class.java)
+                        startActivity(intent)
+                    }
+                    .setNegativeButton("Batal", null)
+                    .show()
+                return@setOnClickListener
+            }
+
             currentWisataData?.let { data ->
                 val namaWisata = data["nama_wisata"] ?: return@let
 

@@ -7,4 +7,16 @@
         <item name="android:background">@color/black_overlay</item>
         <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
     </style>
+
+    <!-- A window animation style that disables enter/exit animations -->
+    <style name="WindowAnimation.NoAnimation" parent="android:style/Animation">
+        <item name="android:activityOpenEnterAnimation">@anim/none</item>
+        <item name="android:activityOpenExitAnimation">@anim/none</item>
+        <item name="android:activityCloseEnterAnimation">@anim/none</item>
+        <item name="android:activityCloseExitAnimation">@anim/none</item>
+        <item name="android:taskOpenEnterAnimation">@anim/none</item>
+        <item name="android:taskOpenExitAnimation">@anim/none</item>
+        <item name="android:taskCloseEnterAnimation">@anim/none</item>
+        <item name="android:taskCloseExitAnimation">@anim/none</item>
+    </style>
 </resources>

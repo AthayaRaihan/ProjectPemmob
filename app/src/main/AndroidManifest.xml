@@ -30,6 +30,9 @@
             android:name=".ui.kuliner.KulinerActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.profil.ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.detail.wisata.DetailWisataActivity"
             android:exported="false" />
         <activity

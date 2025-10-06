@@ -47,7 +47,10 @@ class LoginActivity : AppCompatActivity() {
 
         // Setup Google Sign In button
         binding.btnGoogleSignIn.setOnClickListener {
-            signInWithGoogle()
+            // Ensure the user is signed out from Google so the chooser appears
+            googleSignInClient.signOut().addOnCompleteListener {
+                signInWithGoogle()
+            }
         }
 
         binding.btnLogin.setOnClickListener{
@@ -57,12 +60,20 @@ class LoginActivity : AppCompatActivity() {
             if (email.isNotEmpty() && pass.isNotEmpty()) {
 
                 firebaseAuth.signInWithEmailAndPassword(email, pass)
-                    .addOnCompleteListener {
-                        if (it.isSuccessful) {
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
                             val intent = Intent(this, HomepageActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
+                            finish()
                         } else {
-                            Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                            val ex = task.exception
+                            val message = when (ex) {
+                                is com.google.firebase.auth.FirebaseAuthInvalidCredentialsException -> "Email atau password tidak valid"
+                                is com.google.firebase.auth.FirebaseAuthInvalidUserException -> "Akun tidak ditemukan"
+                                else -> ex?.localizedMessage ?: "Gagal masuk"
+                            }
+                            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                         }
                     }
             } else {

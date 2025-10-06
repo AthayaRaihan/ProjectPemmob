@@ -5,7 +5,10 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.ProjectPemmob" parent="Base.Theme.ProjectPemmob" />
+    <style name="Theme.ProjectPemmob" parent="Base.Theme.ProjectPemmob">
+        <!-- Disable window animations globally so activity transitions don't animate -->
+        <item name="android:windowAnimationStyle">@style/WindowAnimation.NoAnimation</item>
+    </style>
     <style name="Theme.ProjectPemmob.Fullscreen" parent="Theme.ProjectPemmob">
         <item name="android:actionBarStyle">@style/Widget.Theme.ProjectPemmob.ActionBar.Fullscreen
         </item>

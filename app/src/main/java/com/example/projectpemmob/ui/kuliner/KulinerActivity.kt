@@ -19,48 +19,16 @@ class KulinerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kuliner)
 
-        // Setup bottom navigation
-        setupBottomNavigation()
+    // Setup bottom navigation (shared handler)
+    com.example.projectpemmob.ui.navigation.BottomNavigationHandler(this).setupBottomNavigation()
+    // Ensure no transition animation so bottom nav appears static when returning
+    overridePendingTransition(0, 0)
 
         // Setup card click listeners
         setupCardClickListeners()
     }
 
-    private fun setupBottomNavigation() {
-        try {
-            // Icon Home untuk kembali ke homepage
-            findViewById<android.widget.LinearLayout>(R.id.ll_home)?.setOnClickListener {
-                val intent = Intent(this, HomepageActivity::class.java)
-                startActivity(intent)
-                finish() // Tutup activity kuliner
-            }
-
-            // Icon Location untuk ke halaman wisata
-            findViewById<android.widget.LinearLayout>(R.id.ll_location)?.setOnClickListener {
-                val intent = Intent(this, WisataActivity::class.java)
-                startActivity(intent)
-            }
-
-            // Icon Favorites untuk ke halaman favorit
-            findViewById<android.widget.LinearLayout>(R.id.ll_favorites)?.setOnClickListener {
-                val intent = Intent(this, FavoritActivity::class.java)
-                startActivity(intent)
-            }
-
-            // Icon Restaurant - sudah di halaman kuliner, tidak perlu action
-            findViewById<android.widget.LinearLayout>(R.id.ll_restaurant)?.setOnClickListener {
-                // Sudah di halaman kuliner, tidak perlu navigasi
-            }
-
-            // Icon Profile untuk navigasi ke halaman profile
-            findViewById<android.widget.LinearLayout>(R.id.ll_profile)?.setOnClickListener {
-                val intent = Intent(this, ProfileActivity::class.java)
-                startActivity(intent)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
+    // Navigation handled by BottomNavigationHandler
 
     private fun setupCardClickListeners() {
         // Card Kuliner click listeners

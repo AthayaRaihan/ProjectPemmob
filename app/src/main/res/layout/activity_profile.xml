@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/light_background"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:background="@color/light_background">
+
+    <ScrollView
+        android:id="@+id/scroll_profile_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_navigation">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
     <!-- Header Section with Background Image -->
     <RelativeLayout
@@ -239,6 +249,8 @@
 
         </LinearLayout>
 
+
+
         <!-- Destinasi Favorit Section -->
         <LinearLayout
             android:id="@+id/ll_destinasi_favorit"
@@ -291,6 +303,50 @@
 
         </androidx.cardview.widget.CardView>
 
+        </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Login Button shown when not authenticated (moved outside ScrollView so it remains visible) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/login_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="40dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="#3182CE"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Login"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Bottom Navigation -->
+    <LinearLayout
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginHorizontal="20dp">
+        
+        <include
+            layout="@layout/layout_bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

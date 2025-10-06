@@ -19,14 +19,18 @@ class WisataActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wisata)
 
-        // Setup bottom navigation
-        setupBottomNavigation()
+    // Setup bottom navigation (shared handler)
+    com.example.projectpemmob.ui.navigation.BottomNavigationHandler(this).setupBottomNavigation()
+    // Ensure no transition animation so bottom nav appears static when returning
+    overridePendingTransition(0, 0)
 
         // Setup card click listeners
         setupCardClickListeners()
 
-        // Setup heart icon listeners
-        setupHeartIconListeners()
+        // Setup heart icon listeners after loading per-user favorites
+        FavoritManager.loadForCurrentUser(this) {
+            setupHeartIconListeners()
+        }
     }
 
     override fun onResume() {
@@ -35,41 +39,7 @@ class WisataActivity : AppCompatActivity() {
         updateAllHeartIcons()
     }
 
-    private fun setupBottomNavigation() {
-        try {
-            // Icon Home untuk kembali ke homepage
-            findViewById<android.widget.LinearLayout>(R.id.ll_home)?.setOnClickListener {
-                val intent = Intent(this, HomepageActivity::class.java)
-                startActivity(intent)
-                finish() // Tutup activity wisata
-            }
-
-            // Icon Location - sudah di halaman wisata, tidak perlu action
-            findViewById<android.widget.LinearLayout>(R.id.ll_location)?.setOnClickListener {
-                // Sudah di halaman wisata, tidak perlu navigasi
-            }
-
-            // Icon Restaurant untuk ke halaman kuliner
-            findViewById<android.widget.LinearLayout>(R.id.ll_restaurant)?.setOnClickListener {
-                val intent = Intent(this, KulinerActivity::class.java)
-                startActivity(intent)
-            }
-
-            // Icon Favorites untuk ke halaman favorit
-            findViewById<android.widget.LinearLayout>(R.id.ll_favorites)?.setOnClickListener {
-                val intent = Intent(this, FavoritActivity::class.java)
-                startActivity(intent)
-            }
-
-            // Icon Profile untuk navigasi ke halaman profile
-            findViewById<android.widget.LinearLayout>(R.id.ll_profile)?.setOnClickListener {
-                val intent = Intent(this, ProfileActivity::class.java)
-                startActivity(intent)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
+    // Navigation handled by BottomNavigationHandler
 
     private fun setupCardClickListeners() {
         // Card Wisata click listeners - Menggunakan ID yang akan ditambahkan ke layout
@@ -124,6 +94,21 @@ class WisataActivity : AppCompatActivity() {
     }
 
     private fun toggleFavorit(heartIcon: ImageView, namaWisata: String, rating: String, lokasi: String) {
+        // Require login before allowing favorit changes
+        val currentUser = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
+        if (currentUser == null) {
+            androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Perlu Login")
+                .setMessage("Anda harus login jika ingin menambahkan favorit.")
+                .setPositiveButton("OK") { _, _ ->
+                    val intent = Intent(this, com.example.projectpemmob.ui.auth.LoginActivity::class.java)
+                    startActivity(intent)
+                }
+                .setNegativeButton("Batal", null)
+                .show()
+            return
+        }
+
         if (FavoritManager.isFavorit(this, namaWisata, rating, lokasi)) {
             // Remove from favorit
             FavoritManager.removeFromFavorit(this, namaWisata, rating, lokasi)
