@@ -11,6 +11,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.example.projectpemmob.R
+import com.example.projectpemmob.data.repository.WisataRepository
+import com.example.projectpemmob.data.repository.KulinerRepository
 import com.example.projectpemmob.ui.detail.kuliner.DetailKulinerActivity
 import com.example.projectpemmob.ui.detail.wisata.DetailWisataActivity
 import com.example.projectpemmob.ui.favorit.FavoritActivity
@@ -209,23 +211,25 @@ import com.example.projectpemmob.utils.FavoritManager
 
             private fun setupCardClickListeners() {
                 try {
-                    // Card Wisata click listeners di homepage
+                    // Card Wisata click listeners di homepage - gunakan ID yang benar
                     contentLayout.findViewById<androidx.cardview.widget.CardView>(R.id.card_homepage_dieng_1)
                         ?.setOnClickListener {
-                            openDetailWisata(
-                                "Dieng Plateau",
-                                "4.8",
-                                "Kalimanah, Wonosobo, Jawa Tengah"
-                            )
+                            openDetailWisata(7) // Dieng Plateau
                         }
 
                     contentLayout.findViewById<androidx.cardview.widget.CardView>(R.id.card_homepage_dieng_2)
                         ?.setOnClickListener {
-                            openDetailWisata(
-                                "Dieng Plateau",
-                                "4.8",
-                                "Kalimanah, Wonosobo, Jawa Tengah"
-                            )
+                            openDetailWisata(6) // Kawah Sikidang
+                        }
+
+                    contentLayout.findViewById<androidx.cardview.widget.CardView>(R.id.card_homepage_telaga_warna)
+                        ?.setOnClickListener {
+                            openDetailWisata(5) // Telaga Warna
+                        }
+
+                    contentLayout.findViewById<androidx.cardview.widget.CardView>(R.id.card_homepage_arjuna)
+                        ?.setOnClickListener {
+                            openDetailWisata(8) // Candi Arjuna
                         }
 
                     // Quick action cards
@@ -250,29 +254,51 @@ import com.example.projectpemmob.utils.FavoritManager
 
             private fun setupHomepageFavoriteButtons() {
                 try {
-                    // Setup favorite button untuk Dieng 1 di homepage
+                    // Setup favorite button untuk Dieng Plateau di homepage
                     contentLayout.findViewById<ImageView>(R.id.heart_homepage_dieng_1)
                         ?.let { favoriteButton ->
-                            val nama = "Dieng Plateau"
-                            val rating = "4.8"
-                            val lokasi = "Wonosobo, Jawa Tengah"
-
-                            updateFavoriteButtonState(favoriteButton, nama, rating, lokasi)
-                            favoriteButton.setOnClickListener {
-                                toggleFavorite(favoriteButton, nama, rating, lokasi, "wisata")
+                            val wisata = WisataRepository.getWisataById(7) // Dieng Plateau
+                            wisata?.let {
+                                updateFavoriteButtonState(favoriteButton, it)
+                                favoriteButton.setOnClickListener {
+                                    toggleFavorite(favoriteButton, wisata)
+                                }
                             }
                         }
 
-                    // Setup favorite button untuk Dieng 2 di homepage
+                    // Setup favorite button untuk Kawah Sikidang di homepage
                     contentLayout.findViewById<ImageView>(R.id.heart_homepage_dieng_2)
                         ?.let { favoriteButton ->
-                            val nama = "Dieng Plateau"
-                            val rating = "4.8"
-                            val lokasi = "Wonosobo, Jawa Tengah"
+                            val wisata = WisataRepository.getWisataById(6) // Kawah Sikidang
+                            wisata?.let {
+                                updateFavoriteButtonState(favoriteButton, it)
+                                favoriteButton.setOnClickListener {
+                                    toggleFavorite(favoriteButton, wisata)
+                                }
+                            }
+                        }
 
-                            updateFavoriteButtonState(favoriteButton, nama, rating, lokasi)
-                            favoriteButton.setOnClickListener {
-                                toggleFavorite(favoriteButton, nama, rating, lokasi, "wisata")
+                    // Setup favorite button untuk Telaga Warna di homepage
+                    contentLayout.findViewById<ImageView>(R.id.heart_homepage_telaga_warna)
+                        ?.let { favoriteButton ->
+                            val wisata = WisataRepository.getWisataById(5) // Telaga Warna
+                            wisata?.let {
+                                updateFavoriteButtonState(favoriteButton, it)
+                                favoriteButton.setOnClickListener {
+                                    toggleFavorite(favoriteButton, wisata)
+                                }
+                            }
+                        }
+
+                    // Setup favorite button untuk Candi Arjuna di homepage
+                    contentLayout.findViewById<ImageView>(R.id.heart_homepage_arjuna)
+                        ?.let { favoriteButton ->
+                            val wisata = WisataRepository.getWisataById(8) // Candi Arjuna
+                            wisata?.let {
+                                updateFavoriteButtonState(favoriteButton, it)
+                                favoriteButton.setOnClickListener {
+                                    toggleFavorite(favoriteButton, wisata)
+                                }
                             }
                         }
                 } catch (e: Exception) {
@@ -280,30 +306,64 @@ import com.example.projectpemmob.utils.FavoritManager
                 }
             }
 
-            private fun openDetailWisata(namaWisata: String, rating: String, lokasi: String) {
+            private fun openDetailWisata(wisataId: Int) {
                 val intent = Intent(this, DetailWisataActivity::class.java)
-                intent.putExtra("nama_wisata", namaWisata)
-                intent.putExtra("rating", rating)
-                intent.putExtra("lokasi", lokasi)
+                intent.putExtra(DetailWisataActivity.EXTRA_WISATA_ID, wisataId)
                 startActivity(intent)
+            }
+
+            // Legacy method untuk backward compatibility
+            private fun openDetailWisata(namaWisata: String, rating: String, lokasi: String) {
+                val wisata = WisataRepository.getWisataByName(namaWisata)
+                wisata?.let { openDetailWisata(it.id) }
             }
 
             private fun setupTourismClickListeners(tourismView: android.view.View) {
                 try {
-                    // Setup click listeners untuk cards di halaman wisata
+                    // Setup click listeners untuk cards di halaman wisata - gunakan ID yang benar
                     tourismView.findViewById<androidx.cardview.widget.CardView>(R.id.card_dieng_1)
                         ?.setOnClickListener {
-                            openDetailWisata("Dieng Plateau", "4.8", "Wonosobo, Jawa Tengah")
+                            openDetailWisata(7) // Dieng Plateau
                         }
 
                     tourismView.findViewById<androidx.cardview.widget.CardView>(R.id.card_sikidang)
                         ?.setOnClickListener {
-                            openDetailWisata("Kawah Sikidang", "4.7", "Wonosobo, Jawa Tengah")
+                            openDetailWisata(6) // Kawah Sikidang
                         }
 
                     tourismView.findViewById<androidx.cardview.widget.CardView>(R.id.card_telaga_warna)
                         ?.setOnClickListener {
-                            openDetailWisata("Telaga Warna", "4.6", "Wonosobo, Jawa Tengah")
+                            openDetailWisata(5) //
+                        }
+
+                    tourismView.findViewById<androidx.cardview.widget.CardView>(R.id.card_telaga_menjer)
+                        ?.setOnClickListener {
+                            openDetailWisata(1) // Telaga Menjer
+                        }
+
+                    tourismView.findViewById<androidx.cardview.widget.CardView>(R.id.card_bukit_sikunir)
+                        ?.setOnClickListener {
+                            openDetailWisata(2) // Bukit Sikunir
+                        }
+
+                    tourismView.findViewById<androidx.cardview.widget.CardView>(R.id.card_gunung_prau)
+                        ?.setOnClickListener {
+                            openDetailWisata(3) // Gunung Prau
+                        }
+
+                    tourismView.findViewById<androidx.cardview.widget.CardView>(R.id.card_bukit_scooter)
+                        ?.setOnClickListener {
+                            openDetailWisata(4) // Bukit Scooter
+                        }
+
+                    tourismView.findViewById<androidx.cardview.widget.CardView>(R.id.card_gunung_prau)
+                        ?.setOnClickListener {
+                            openDetailWisata(3) // Gunung Prau
+                        }
+
+                    tourismView.findViewById<androidx.cardview.widget.CardView>(R.id.card_arjuna)
+                        ?.setOnClickListener {
+                            openDetailWisata(8) // Gunung Prau
                         }
 
                     // Setup favorite buttons untuk wisata
@@ -315,26 +375,31 @@ import com.example.projectpemmob.utils.FavoritManager
 
             private fun setupCulinaryClickListeners(culinaryView: android.view.View) {
                 try {
-                    // Setup click listeners untuk cards di halaman kuliner
+                    // Setup click listeners untuk 5 kuliner dinamis
                     culinaryView.findViewById<androidx.cardview.widget.CardView>(R.id.card_mie_ongklok)
                         ?.setOnClickListener {
-                            openDetailKuliner(
-                                "Mie Ongklok Abang Adek",
-                                "4.5",
-                                "Wonosobo, Jawa Tengah"
-                            )
+                            openDetailKuliner(1) // Mie Ongklok
                         }
 
-                    culinaryView.findViewById<androidx.cardview.widget.CardView>(R.id.card_sate_buntel)
+                    culinaryView.findViewById<androidx.cardview.widget.CardView>(R.id.card_mie_ongklok_2)
                         ?.setOnClickListener {
-                            openDetailKuliner(
-                                "Sate Buntel Khas Wonosobo",
-                                "4.6",
-                                "Wonosobo, Jawa Tengah"
-                            )
+                            openDetailKuliner(2) // Tempe Kemul
                         }
 
-                    // Kuliner tidak memiliki fungsi favorit
+                    culinaryView.findViewById<androidx.cardview.widget.CardView>(R.id.card_carica)
+                        ?.setOnClickListener {
+                            openDetailKuliner(3) // Carica
+                        }
+
+                    culinaryView.findViewById<androidx.cardview.widget.CardView>(R.id.card_sego_megono)
+                        ?.setOnClickListener {
+                            openDetailKuliner(4) // Sego Megono
+                        }
+
+                    culinaryView.findViewById<androidx.cardview.widget.CardView>(R.id.card_geblek)
+                        ?.setOnClickListener {
+                            openDetailKuliner(5) // Geblek
+                        }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -355,9 +420,9 @@ import com.example.projectpemmob.utils.FavoritManager
                 val favoritListLayout =
                     favoritesView.findViewById<LinearLayout>(R.id.favorit_list_layout)
 
-                val favoritSet = FavoritManager.getFavoritList(this)
+                val favoritWisataList = FavoritManager.getFavoritWisataList(this)
 
-                if (favoritSet.isEmpty()) {
+                if (favoritWisataList.isEmpty()) {
                     // Show empty state
                     emptyStateLayout?.visibility = View.VISIBLE
                     favoritListLayout?.visibility = View.GONE
@@ -365,31 +430,23 @@ import com.example.projectpemmob.utils.FavoritManager
                     // Show favorit list
                     emptyStateLayout?.visibility = View.GONE
                     favoritListLayout?.visibility = View.VISIBLE
-                    populateFavoritList(favoritSet, favoritListLayout)
+                    populateFavoritList(favoritWisataList, favoritListLayout)
                 }
             }
 
             private fun populateFavoritList(
-                favoritSet: Set<String>,
+                favoritWisataList: List<com.example.projectpemmob.data.model.Wisata>,
                 favoritListLayout: LinearLayout?
             ) {
                 favoritListLayout?.removeAllViews()
 
-                for (favoritItem in favoritSet) {
-                    val parts = favoritItem.split("|")
-                    if (parts.size >= 3) {
-                        val namaWisata = parts[0]
-                        val rating = parts[1]
-                        val lokasi = parts[2]
-                        addFavoritCard(namaWisata, rating, lokasi, favoritListLayout)
-                    }
+                for (wisata in favoritWisataList) {
+                    addFavoritCard(wisata, favoritListLayout)
                 }
             }
 
             private fun addFavoritCard(
-                namaWisata: String,
-                rating: String,
-                lokasi: String,
+                wisata: com.example.projectpemmob.data.model.Wisata,
                 favoritListLayout: LinearLayout?
             ) {
                 try {
@@ -401,18 +458,18 @@ import com.example.projectpemmob.utils.FavoritManager
 
                     // Set data to card
                     cardView.findViewById<android.widget.TextView>(R.id.tv_nama_wisata_favorit)?.text =
-                        namaWisata
+                        wisata.namaWisata
                     cardView.findViewById<android.widget.TextView>(R.id.tv_rating_favorit)?.text =
-                        rating
+                        wisata.rating
 
                     // Add click listener to open detail
                     cardView.setOnClickListener {
-                        openDetailWisata(namaWisata, rating, lokasi)
+                        openDetailWisata(wisata.id)
                     }
 
                     // Add remove from favorit functionality
                     cardView.findViewById<View>(R.id.btn_remove_favorit)?.setOnClickListener {
-                        removeFromFavoritAndRefresh(namaWisata, rating, lokasi)
+                        removeFromFavoritAndRefresh(wisata)
                     }
 
                     favoritListLayout?.addView(cardView)
@@ -421,66 +478,122 @@ import com.example.projectpemmob.utils.FavoritManager
                 }
             }
 
-            private fun removeFromFavoritAndRefresh(
-                namaWisata: String,
-                rating: String,
-                lokasi: String
-            ) {
-                FavoritManager.removeFromFavorit(this, namaWisata, rating, lokasi)
+            private fun removeFromFavoritAndRefresh(wisata: com.example.projectpemmob.data.model.Wisata) {
+                FavoritManager.removeFromFavorit(this, wisata)
 
                 // Refresh favorit content if currently showing favorites
                 if (currentPage == "favorites") {
                     loadFavoritesContent()
                 }
 
-                Toast.makeText(this, "$namaWisata dihapus dari favorit", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "${wisata.namaWisata} dihapus dari favorit", Toast.LENGTH_SHORT).show()
             }
 
-            private fun openDetailKuliner(namaKuliner: String, rating: String, lokasi: String) {
+            private fun openDetailKuliner(kulinerId: Int) {
                 val intent = Intent(this, DetailKulinerActivity::class.java)
-                intent.putExtra("nama_kuliner", namaKuliner)
-                intent.putExtra("rating", rating)
-                intent.putExtra("lokasi", lokasi)
+                intent.putExtra(DetailKulinerActivity.EXTRA_KULINER_ID, kulinerId)
                 startActivity(intent)
+            }
+
+            // Legacy method untuk backward compatibility
+            private fun openDetailKuliner(namaKuliner: String, rating: String, lokasi: String) {
+                val kuliner = KulinerRepository.getKulinerByName(namaKuliner)
+                kuliner?.let { openDetailKuliner(it.id) }
             }
 
             private fun setupWisataFavoriteButtons(tourismView: android.view.View) {
                 try {
-                    // Setup favorite button untuk Dieng
+                    // Setup favorite button untuk Dieng Plateau
                     tourismView.findViewById<ImageView>(R.id.heart_dieng_1)?.let { favoriteButton ->
-                        val nama = "Dieng Plateau"
-                        val rating = "4.8"
-                        val lokasi = "Wonosobo, Jawa Tengah"
-
-                        updateFavoriteButtonState(favoriteButton, nama, rating, lokasi)
-                        favoriteButton.setOnClickListener {
-                            toggleFavorite(favoriteButton, nama, rating, lokasi, "wisata")
+                        val wisata = WisataRepository.getWisataById(7) // Dieng Plateau
+                        wisata?.let {
+                            updateFavoriteButtonState(favoriteButton, it)
+                            favoriteButton.setOnClickListener {
+                                toggleFavorite(favoriteButton, wisata)
+                            }
                         }
                     }
 
-                    // Setup favorite button untuk Sikunir
+                    // Setup favorite button untuk Kawah Sikidang
                     tourismView.findViewById<ImageView>(R.id.heart_sikidang)
                         ?.let { favoriteButton ->
-                            val nama = "Kawah Sikidang"
-                            val rating = "4.7"
-                            val lokasi = "Wonosobo, Jawa Tengah"
-
-                            updateFavoriteButtonState(favoriteButton, nama, rating, lokasi)
-                            favoriteButton.setOnClickListener {
-                                toggleFavorite(favoriteButton, nama, rating, lokasi, "wisata")
+                            val wisata = WisataRepository.getWisataById(6) // Kawah Sikidang
+                            wisata?.let {
+                                updateFavoriteButtonState(favoriteButton, it)
+                                favoriteButton.setOnClickListener {
+                                    toggleFavorite(favoriteButton, wisata)
+                                }
                             }
                         }
 
-                    // Setup favorite button untuk Telaga Warna
+                    // Setup favorite button untuk Candi Arjuna (card_telaga_warna)
                     tourismView.findViewById<ImageView>(R.id.heart_telaga_warna)
                         ?.let { favoriteButton ->
-                            val nama = "Telaga Warna"
-                            val rating = "4.6"
-                            val lokasi = "Wonosobo, Jawa Tengah"
+                            val wisata = WisataRepository.getWisataById(5) // Candi Arjuna
+                            wisata?.let {
+                                updateFavoriteButtonState(favoriteButton, it)
+                                favoriteButton.setOnClickListener {
+                                    toggleFavorite(favoriteButton, wisata)
+                                }
+                            }
+                        }
 
-                            updateFavoriteButtonState(favoriteButton, nama, rating, lokasi)
-                            favoriteButton.setOnClickListener {
-                                toggleFavorite(favoriteButton, nama, rating, lokasi, "wisata")
+                    // Setup favorite button untuk Telaga Menjer
+                    tourismView.findViewById<ImageView>(R.id.heart_telaga_menjer)
+                        ?.let { favoriteButton ->
+                            val wisata = WisataRepository.getWisataById(1) // Telaga Menjer
+                            wisata?.let {
+                                updateFavoriteButtonState(favoriteButton, it)
+                                favoriteButton.setOnClickListener {
+                                    toggleFavorite(favoriteButton, wisata)
+                                }
+                            }
+                        }
+
+                    // Setup favorite button untuk Bukit Sikunir
+                    tourismView.findViewById<ImageView>(R.id.heart_bukit_sikunir)
+                        ?.let { favoriteButton ->
+                            val wisata = WisataRepository.getWisataById(2) // Bukit Sikunir
+                            wisata?.let {
+                                updateFavoriteButtonState(favoriteButton, it)
+                                favoriteButton.setOnClickListener {
+                                    toggleFavorite(favoriteButton, wisata)
+                                }
+                            }
+                        }
+
+                    // Setup favorite button untuk Gunung Prau
+                    tourismView.findViewById<ImageView>(R.id.heart_gunung_prau)
+                        ?.let { favoriteButton ->
+                            val wisata = WisataRepository.getWisataById(3) // Gunung Prau
+                            wisata?.let {
+                                updateFavoriteButtonState(favoriteButton, it)
+                                favoriteButton.setOnClickListener {
+                                    toggleFavorite(favoriteButton, wisata)
+                                }
+                            }
+                        }
+
+                    // Setup favorite button untuk Bukit Scooter
+                    tourismView.findViewById<ImageView>(R.id.heart_bukit_scooter)
+                        ?.let { favoriteButton ->
+                            val wisata = WisataRepository.getWisataById(4) // Bukit Scooter
+                            wisata?.let {
+                                updateFavoriteButtonState(favoriteButton, it)
+                                favoriteButton.setOnClickListener {
+                                    toggleFavorite(favoriteButton, wisata)
+                                }
+                            }
+                        }
+
+                    tourismView.findViewById<ImageView>(R.id.heart_arjuna)
+                        ?.let { favoriteButton ->
+                            val wisata = WisataRepository.getWisataById(8) // Gunung Prau
+                            wisata?.let {
+                                updateFavoriteButtonState(favoriteButton, it)
+                                favoriteButton.setOnClickListener {
+                                    toggleFavorite(favoriteButton, wisata)
+                                }
                             }
                         }
                 } catch (e: Exception) {
@@ -488,6 +601,17 @@ import com.example.projectpemmob.utils.FavoritManager
                 }
             }
 
+            private fun updateFavoriteButtonState(
+                favoriteButton: ImageView,
+                wisata: com.example.projectpemmob.data.model.Wisata
+            ) {
+                val isFavorite = FavoritManager.isFavorit(this, wisata)
+                favoriteButton.setImageResource(
+                    if (isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorites
+                )
+            }
+
+            // Legacy method untuk backward compatibility
             private fun updateFavoriteButtonState(
                 favoriteButton: ImageView,
                 nama: String,
@@ -500,6 +624,24 @@ import com.example.projectpemmob.utils.FavoritManager
                 )
             }
 
+            private fun toggleFavorite(
+                favoriteButton: ImageView,
+                wisata: com.example.projectpemmob.data.model.Wisata
+            ) {
+                val isFavorite = FavoritManager.isFavorit(this, wisata)
+
+                if (isFavorite) {
+                    FavoritManager.removeFromFavorit(this, wisata)
+                    favoriteButton.setImageResource(R.drawable.ic_favorites)
+                    Toast.makeText(this, "${wisata.namaWisata} dihapus dari favorit", Toast.LENGTH_SHORT).show()
+                } else {
+                    FavoritManager.addToFavorit(this, wisata)
+                    favoriteButton.setImageResource(R.drawable.ic_favorite_filled)
+                    Toast.makeText(this, "${wisata.namaWisata} ditambahkan ke favorit", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            // Legacy method untuk backward compatibility
             private fun toggleFavorite(
                 favoriteButton: ImageView,
                 nama: String,

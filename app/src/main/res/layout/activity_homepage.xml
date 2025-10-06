@@ -393,6 +393,7 @@
 
                     <!-- Third Tourism Card -->
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/card_homepage_telaga_warna"
                         android:layout_width="280dp"
                         android:layout_height="wrap_content"
                         app:cardCornerRadius="16dp"
@@ -424,6 +425,7 @@
 
                                     <!-- Heart Icon -->
                                     <ImageView
+                                        android:id="@+id/heart_homepage_telaga_warna"
                                         android:layout_width="24dp"
                                         android:layout_height="24dp"
                                         android:layout_alignParentTop="true"
@@ -455,6 +457,107 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Telaga Warna"
+                                        android:textColor="@color/dark_text"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:layout_width="16dp"
+                                        android:layout_height="16dp"
+                                        android:src="@drawable/ic_star"
+                                        android:layout_marginEnd="4dp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="4.6"
+                                        android:textColor="@color/dark_text"
+                                        android:textSize="12sp"
+                                        android:textStyle="bold" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- Fourth Tourism Card - Candi Arjuna -->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_homepage_arjuna"
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@android:color/white">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="12dp">
+
+                            <!-- Image Container -->
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="180dp"
+                                app:cardCornerRadius="12dp"
+                                app:cardElevation="0dp">
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:scaleType="centerCrop"
+                                        android:src="@drawable/arjuna1" />
+
+                                    <!-- Heart Icon -->
+                                    <ImageView
+                                        android:id="@+id/heart_homepage_arjuna"
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:layout_alignParentTop="true"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_margin="8dp"
+                                        android:src="@drawable/ic_heart"
+                                        android:background="@drawable/circle_white_background"
+                                        android:padding="6dp" />
+
+                                </RelativeLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <!-- Card Info -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Candi Arjuna"
                                         android:textColor="@color/dark_text"
                                         android:textSize="14sp"
                                         android:textStyle="bold" />

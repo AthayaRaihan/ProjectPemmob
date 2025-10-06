@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/listdestinasi" />
+            android:src="@drawable/favbanner" />
 
         <!-- Gradient Overlay -->
         <View
@@ -47,55 +47,25 @@
                 android:shadowDx="2"
                 android:shadowDy="2"
                 android:shadowRadius="4" />            <!-- Search Bar -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/search_background"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="12dp"
-                android:layout_marginBottom="20dp">
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_search"
-                    android:layout_marginEnd="12dp" />
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:hint="Cari wisata favorit Anda..."
-                    android:textColorHint="@color/hint_color"
-                    android:textSize="14sp"
-                    android:textColor="@color/dark_text" />
-
-            </LinearLayout>
-
-            <!-- Filter Categories -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
-
-
-
-            </LinearLayout>
 
         </LinearLayout>
 
     </RelativeLayout>
 
     <!-- Content Section -->
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingHorizontal="20dp"
-        android:paddingTop="30dp">
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="30dp"
+            android:paddingBottom="20dp">
 
         <!-- Empty State -->
         <LinearLayout
@@ -146,6 +116,8 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

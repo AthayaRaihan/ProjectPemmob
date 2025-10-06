@@ -3,20 +3,19 @@ package com.example.projectpemmob.ui.favorit
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.example.projectpemmob.R
+import com.example.projectpemmob.data.model.Wisata
 import com.example.projectpemmob.ui.detail.wisata.DetailWisataActivity
-import com.example.projectpemmob.ui.home.HomepageActivity
-import com.example.projectpemmob.ui.kuliner.KulinerActivity
-import com.example.projectpemmob.ui.wisata.WisataActivity
 import com.example.projectpemmob.utils.FavoritManager
-import com.example.projectpemmob.ui.profil.ProfileActivity
 
 class FavoritActivity : AppCompatActivity() {
-
+    
     private lateinit var emptyStateLayout: LinearLayout
     private lateinit var favoritListLayout: LinearLayout
 
@@ -24,122 +23,107 @@ class FavoritActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorit)
 
-        // Initialize views
-        emptyStateLayout = findViewById(R.id.empty_state_layout)
-        favoritListLayout = findViewById(R.id.favorit_list_layout)
-
-        // Setup bottom navigation
-        setupBottomNavigation()
-
-        // Load favorit data
-        loadFavoritData()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        // Refresh favorit list when returning to this activity
-        loadFavoritData()
-    }
-
-    private fun loadFavoritData() {
-        val favoritSet = FavoritManager.getFavoritList(this)
-
-        if (favoritSet.isEmpty()) {
-            // Show empty state
-            emptyStateLayout.visibility = View.VISIBLE
-            favoritListLayout.visibility = View.GONE
-        } else {
-            // Show favorit list
-            emptyStateLayout.visibility = View.GONE
-            favoritListLayout.visibility = View.VISIBLE
-            populateFavoritList(favoritSet)
-        }
-    }
-
-    private fun populateFavoritList(favoritSet: Set<String>) {
-        favoritListLayout.removeAllViews()
-
-        for (favoritItem in favoritSet) {
-            val parts = favoritItem.split("|")
-            if (parts.size >= 3) {
-                val namaWisata = parts[0]
-                val rating = parts[1]
-                val lokasi = parts[2]
-                addFavoritCard(namaWisata, rating, lokasi)
-            }
-        }
-    }
-
-    private fun addFavoritCard(namaWisata: String, rating: String, lokasi: String) {
-        val cardView = layoutInflater.inflate(R.layout.item_favorit_card, favoritListLayout, false) as CardView
-
-        // Set data to card
-        cardView.findViewById<TextView>(R.id.tv_nama_wisata_favorit).text = namaWisata
-        cardView.findViewById<TextView>(R.id.tv_rating_favorit).text = rating
-
-        // Add click listener to open detail
-        cardView.setOnClickListener {
-            openDetailWisata(namaWisata, rating, lokasi)
-        }
-
-        // Add remove from favorit functionality
-        cardView.findViewById<View>(R.id.btn_remove_favorit).setOnClickListener {
-            removeFromFavorit(namaWisata, rating, lokasi)
-        }
-
-        favoritListLayout.addView(cardView)
-    }
-
-    private fun removeFromFavorit(namaWisata: String, rating: String, lokasi: String) {
-        FavoritManager.removeFromFavorit(this, namaWisata, rating, lokasi)
-
-        // Refresh the list
-        loadFavoritData()
-    }
-
-    private fun openDetailWisata(namaWisata: String, rating: String, lokasi: String) {
-        val intent = Intent(this, DetailWisataActivity::class.java)
-        intent.putExtra("nama_wisata", namaWisata)
-        intent.putExtra("rating", rating)
-        intent.putExtra("lokasi", lokasi)
-        startActivity(intent)
-    }
-
-    private fun setupBottomNavigation() {
         try {
-            // Icon Home untuk kembali ke homepage
-            findViewById<LinearLayout>(R.id.ll_home)?.setOnClickListener {
-                val intent = Intent(this, HomepageActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-
-            // Icon Location untuk ke halaman wisata
-            findViewById<LinearLayout>(R.id.ll_location)?.setOnClickListener {
-                val intent = Intent(this, WisataActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-
-            // Icon Restaurant untuk ke halaman kuliner
-            findViewById<LinearLayout>(R.id.ll_restaurant)?.setOnClickListener {
-                val intent = Intent(this, KulinerActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-
-            // Icon Favorites - sudah di halaman favorit, tidak perlu action
-            findViewById<LinearLayout>(R.id.ll_favorites)?.setOnClickListener {
-                // Sudah di halaman favorit, tidak perlu navigasi
-            }
-
-            // Icon Profile untuk navigasi ke halaman profile
-            findViewById<LinearLayout>(R.id.ll_profile)?.setOnClickListener {
-                val intent = Intent(this, ProfileActivity::class.java)
-                startActivity(intent)
-            }
+            emptyStateLayout = findViewById(R.id.empty_state_layout)
+            favoritListLayout = findViewById(R.id.favorit_list_layout)
+            
+            loadFavoritData()
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        loadFavoritData()
+    }
+
+    private fun loadFavoritData() {
+        try {
+            val favoritWisataList = FavoritManager.getFavoritWisataList(this)
+
+            if (favoritWisataList.isEmpty()) {
+                showEmptyState()
+            } else {
+                showFavoritList(favoritWisataList)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            showEmptyState()
+        }
+    }
+
+    private fun showEmptyState() {
+        try {
+            emptyStateLayout.visibility = View.VISIBLE
+            favoritListLayout.visibility = View.GONE
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun showFavoritList(favoritWisataList: List<Wisata>) {
+        try {
+            emptyStateLayout.visibility = View.GONE
+            favoritListLayout.visibility = View.VISIBLE
+            favoritListLayout.removeAllViews()
+
+            for (wisata in favoritWisataList) {
+                addFavoritItemToLayout(wisata)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            showEmptyState()
+        }
+    }
+
+    private fun addFavoritItemToLayout(wisata: Wisata) {
+        try {
+            val cardView = layoutInflater.inflate(R.layout.item_favorit_card, null) as CardView
+
+            // Set data wisata dengan ID yang benar sesuai layout
+            val namaTextView = cardView.findViewById<TextView>(R.id.tv_nama_wisata_favorit)
+            val ratingTextView = cardView.findViewById<TextView>(R.id.tv_rating_favorit)
+            val lokasiTextView = cardView.findViewById<TextView>(R.id.tv_lokasi_favorit)
+            val imageView = cardView.findViewById<ImageView>(R.id.iv_wisata_favorit)
+            val heartIcon = cardView.findViewById<ImageView>(R.id.btn_remove_favorit)
+
+            // Set data dengan null safety
+            namaTextView?.text = wisata.namaWisata
+            ratingTextView?.text = wisata.rating
+            lokasiTextView?.text = wisata.lokasi
+            imageView?.setImageResource(wisata.imageResource)
+
+            // Set heart icon untuk favorit
+            heartIcon?.setImageResource(R.drawable.ic_heart_filled)
+
+            // Click listener untuk card
+            cardView.setOnClickListener {
+                navigateToDetail(wisata)
+            }
+
+            // Click listener untuk heart icon (remove dari favorit)
+            heartIcon?.setOnClickListener {
+                FavoritManager.removeFromFavorit(this@FavoritActivity, wisata)
+                Toast.makeText(this@FavoritActivity, "${wisata.namaWisata} dihapus dari favorit", Toast.LENGTH_SHORT).show()
+                loadFavoritData() // Refresh list
+            }
+
+            favoritListLayout.addView(cardView)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun navigateToDetail(wisata: Wisata) {
+        try {
+            val intent = Intent(this, DetailWisataActivity::class.java)
+            // Gunakan ID untuk navigasi yang lebih reliable
+            intent.putExtra(DetailWisataActivity.EXTRA_WISATA_ID, wisata.id)
+            startActivity(intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
 }

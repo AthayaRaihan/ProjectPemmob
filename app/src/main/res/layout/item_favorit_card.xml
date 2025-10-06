@@ -26,6 +26,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
+                    android:id="@+id/iv_wisata_favorit"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
@@ -69,6 +70,15 @@
                     android:textColor="@color/dark_text"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_lokasi_favorit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Wonosobo, Jawa Tengah"
+                    android:textColor="@color/hint_color"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 

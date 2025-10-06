@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/listkul" />
+            android:src="@drawable/kul" />
 
         <!-- Gradient Overlay -->
         <View
@@ -57,7 +57,7 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="12dp"
-                android:layout_marginBottom="20dp">
+                android:layout_marginTop="150dp">
 
                 <ImageView
                     android:layout_width="20dp"
@@ -66,11 +66,12 @@
                     android:layout_marginEnd="12dp" />
 
                 <EditText
+                    android:id="@+id/search_kuliner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:hint="Cari kuliner di Kabupaten Wonosobo..."
+                    android:hint="Cari nama kuliner (Mie, Tempe, Carica, dll)..."
                     android:textColorHint="@color/hint_color"
                     android:textSize="14sp"
                     android:textColor="@color/dark_text" />
@@ -82,6 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginTop="10dp"
                 android:weightSum="4">
 
                 <TextView
@@ -184,7 +186,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/culinary_noodles" />                </androidx.cardview.widget.CardView>
+                            android:src="@drawable/ongklok1" />
+                </androidx.cardview.widget.CardView>
 
                 <!-- Card Info -->
                 <LinearLayout
@@ -203,7 +206,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Mie Ongklok Abang Adek"
+                            android:text="Mie Ongklok"
                             android:textColor="@color/dark_text"
                             android:textSize="18sp"
                             android:textStyle="bold" />
@@ -238,7 +241,7 @@
 
         </androidx.cardview.widget.CardView>
 
-        <!-- Second Culinary Card - Mie Ongklok Ibu Bapak -->
+        <!-- Second Culinary Card - Tempe Kemul -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_mie_ongklok_2"
             android:layout_width="match_parent"
@@ -265,7 +268,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/culinary_noodles" />                </androidx.cardview.widget.CardView>
+                            android:src="@drawable/kemul1" />                </androidx.cardview.widget.CardView>
 
                 <!-- Card Info -->
                 <LinearLayout
@@ -284,7 +287,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Mie Ongklok Ibu Bapak"
+                            android:text="Tempe Kemul"
                             android:textColor="@color/dark_text"
                             android:textSize="18sp"
                             android:textStyle="bold" />
@@ -306,7 +309,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="4.7"
+                            android:text="4.5"
                             android:textColor="@color/dark_text"
                             android:textSize="12sp"
                             android:textStyle="bold" />
@@ -319,9 +322,9 @@
 
         </androidx.cardview.widget.CardView>
 
-        <!-- Third Culinary Card - Sate Buntel -->
+        <!-- Third Culinary Card - Carica -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/card_sate_buntel"
+            android:id="@+id/card_carica"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -346,7 +349,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/culinary_1" />                </androidx.cardview.widget.CardView>
+                            android:src="@drawable/carica1" />                </androidx.cardview.widget.CardView>
 
                 <!-- Card Info -->
                 <LinearLayout
@@ -365,7 +368,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Sate Buntel Khas Wonosobo"
+                            android:text="Carica"
                             android:textColor="@color/dark_text"
                             android:textSize="18sp"
                             android:textStyle="bold" />
@@ -388,6 +391,168 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="4.6"
+                            android:textColor="@color/dark_text"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Fourth Culinary Card - Sego Megono -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_sego_megono"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@android:color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Image Container -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/megono1" />                </androidx.cardview.widget.CardView>
+
+                <!-- Card Info -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sego Megono"
+                            android:textColor="@color/dark_text"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_star"
+                            android:layout_marginEnd="6dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="4.4"
+                            android:textColor="@color/dark_text"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Fifth Culinary Card - Geblek -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_geblek"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="80dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@android:color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Image Container -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/geblek1" />                </androidx.cardview.widget.CardView>
+
+                <!-- Card Info -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Geblek"
+                            android:textColor="@color/dark_text"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_star"
+                            android:layout_marginEnd="6dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="4.3"
                             android:textColor="@color/dark_text"
                             android:textSize="12sp"
                             android:textStyle="bold" />
