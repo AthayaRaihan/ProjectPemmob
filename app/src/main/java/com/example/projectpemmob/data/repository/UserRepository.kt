@@ -38,4 +38,35 @@ class UserRepository {
 			.addOnSuccessListener { onSuccess() }
 			.addOnFailureListener { e -> onError(e) }
 	}
+
+	/**
+	 * Update user profile (name and email) in Firestore.
+	 */
+	fun updateUserProfile(uid: String, name: String, email: String, onSuccess: () -> Unit, onError: (Exception) -> Unit) {
+		val updates = hashMapOf<String, Any>(
+			"name" to name,
+			"email" to email
+		)
+		
+		db.collection("users").document(uid)
+			.update(updates)
+			.addOnSuccessListener { onSuccess() }
+			.addOnFailureListener { e -> onError(e) }
+	}
+
+	/**
+	 * Create or update user document in Firestore.
+	 */
+	fun createOrUpdateUser(user: User, onSuccess: () -> Unit, onError: (Exception) -> Unit) {
+		val userData = hashMapOf(
+			"name" to user.name,
+			"email" to user.email,
+			"photoUrl" to user.photoUrl
+		)
+
+		db.collection("users").document(user.uid)
+			.set(userData)
+			.addOnSuccessListener { onSuccess() }
+			.addOnFailureListener { e -> onError(e) }
+	}
 }

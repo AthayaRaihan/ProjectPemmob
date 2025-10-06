@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="200dp"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="0dp"
+    android:layout_marginEnd="12dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
     app:cardBackgroundColor="@android:color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="8dp">
 
         <!-- Image Container -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:cardCornerRadius="12dp"
+            android:layout_height="120dp"
+            app:cardCornerRadius="8dp"
             app:cardElevation="0dp">
 
             <RelativeLayout
@@ -26,23 +26,23 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/iv_favorit"
+                    android:id="@+id/img_homepage_kuliner"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/background_login" />
+                    android:src="@drawable/culinary_noodles" />
 
-                <!-- Heart Icon - Red/Filled since it's in favorit -->
+                <!-- Heart Icon -->
                 <ImageView
-                    android:id="@+id/btn_remove_favorit"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:id="@+id/heart_homepage_kuliner"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_margin="12dp"
-                    android:src="@drawable/ic_heart_filled"
+                    android:layout_margin="6dp"
+                    android:src="@drawable/ic_heart"
                     android:background="@drawable/circle_white_background"
-                    android:padding="8dp" />
+                    android:padding="4dp" />
 
             </RelativeLayout>
 
@@ -52,7 +52,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
@@ -63,22 +63,15 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_nama_favorit"
+                    android:id="@+id/tv_homepage_kuliner_nama"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nama Favorit"
+                    android:text="Mie Ongklok"
                     android:textColor="@color/dark_text"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_lokasi_favorit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Lokasi Favorit"
-                    android:textColor="@color/secondary_text"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:ellipsize="end" />
 
             </LinearLayout>
 
@@ -89,18 +82,18 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
                     android:src="@drawable/ic_star"
-                    android:layout_marginEnd="6dp" />
+                    android:layout_marginEnd="2dp" />
 
                 <TextView
-                    android:id="@+id/tv_rating_favorit"
+                    android:id="@+id/tv_homepage_kuliner_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="4.8"
                     android:textColor="@color/dark_text"
-                    android:textSize="12sp"
+                    android:textSize="10sp"
                     android:textStyle="bold" />
 
             </LinearLayout>

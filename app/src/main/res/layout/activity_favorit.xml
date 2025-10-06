@@ -47,6 +47,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Destinasi Favorit Saya"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:textSize="28sp"
@@ -126,7 +127,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Belum Ada Wisata Favorit"
+                android:text="Belum Ada Favorit"
                 android:textColor="@color/dark_text"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -135,7 +136,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tambahkan wisata ke favorit dengan menekan icon love ❤️"
+                android:text="Tambahkan wisata atau kuliner ke favorit dengan menekan icon love ❤️"
                 android:textColor="@color/hint_color"
                 android:textSize="14sp"
                 android:textAlignment="center"
@@ -143,17 +144,12 @@
 
         </LinearLayout>
 
-        <!-- Favorit List -->
-        <LinearLayout
-            android:id="@+id/favorit_list_layout"
+        <!-- Favorit RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_favorit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-            
-            <!-- Cards will be added dynamically here -->
-
-            </LinearLayout>
+            android:visibility="gone" />
 
         </LinearLayout>
         </LinearLayout>

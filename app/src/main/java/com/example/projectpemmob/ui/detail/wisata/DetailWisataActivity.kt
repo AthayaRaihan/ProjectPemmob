@@ -9,6 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.projectpemmob.R
+import com.example.projectpemmob.data.model.Wisata
 import com.example.projectpemmob.ui.favorit.FavoritActivity
 import com.example.projectpemmob.ui.home.HomepageActivity
 import com.example.projectpemmob.ui.kuliner.KulinerActivity
@@ -19,29 +20,25 @@ import com.example.projectpemmob.ui.auth.LoginActivity
 
 class DetailWisataActivity : AppCompatActivity() {
 
-    private var currentWisataData: HashMap<String, String>? = null
+    private var wisataData: Wisata? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_wisata)
 
-        // Get data from intent
-        val namaWisata = intent.getStringExtra("nama_wisata") ?: "Dieng Plateau"
-        val rating = intent.getStringExtra("rating") ?: "4.8"
-        val lokasi = intent.getStringExtra("lokasi") ?: "Banjarnegara, Jawa Tengah"
-        val description = intent.getStringExtra("description") ?: "Dieng Plateau atau dataran tinggi Dieng, merupakan salah satu situs bersejarah paling terkenal di Jawa Tengah, Indonesia."
-
-        // Store current wisata data for favorit functionality
-        currentWisataData = hashMapOf(
-            "nama_wisata" to namaWisata,
-            "rating" to rating,
-            "lokasi" to lokasi,
-            "description" to description
-        )
-
-        // Setup views
-        setupViews(namaWisata, rating, lokasi, description)
-
+        // Get Wisata object from intent
+        wisataData = intent.getParcelableExtra("wisata_data")
+        
+        if (wisataData != null) {
+            setupWisataData(wisataData!!)
+        } else {
+            // Fallback to old method if object not found
+            val namaWisata = intent.getStringExtra("nama_wisata") ?: "Dieng Plateau"
+            val rating = intent.getStringExtra("rating") ?: "4.8"
+            val lokasi = intent.getStringExtra("lokasi") ?: "Kalimanah, Wonosobo, Jawa Tengah"
+            setupWisataDataLegacy(namaWisata, rating, lokasi)
+        }
+        
         // Setup buttons
         setupBackButton()
         setupFavoritButton()
@@ -52,8 +49,22 @@ class DetailWisataActivity : AppCompatActivity() {
             updateFavoritButtonState()
         }
     }
-
-    private fun setupViews(namaWisata: String, rating: String, lokasi: String, description: String) {
+    
+    private fun setupWisataData(wisata: Wisata) {
+        // Setup views with dynamic data
+        findViewById<TextView>(R.id.tv_nama_wisata).text = wisata.namaWisata
+        findViewById<TextView>(R.id.tv_rating).text = wisata.rating
+        findViewById<TextView>(R.id.tv_location).text = wisata.lokasi
+        findViewById<TextView>(R.id.tv_description).text = wisata.description
+        
+        // Set image
+        findViewById<ImageView>(R.id.img_kuliner_main).setImageResource(wisata.imageResource)
+    }
+    
+    private fun setupWisataDataLegacy(namaWisata: String, rating: String, lokasi: String) {
+        // Fallback method for old intent extras
+        val description = "Deskripsi wisata akan ditampilkan di sini."
+        
         findViewById<TextView>(R.id.tv_nama_wisata).text = namaWisata
         findViewById<TextView>(R.id.tv_rating).text = rating
         findViewById<TextView>(R.id.tv_location).text = lokasi
@@ -83,17 +94,15 @@ class DetailWisataActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            currentWisataData?.let { data ->
-                val namaWisata = data["nama_wisata"] ?: return@let
-
-                if (FavoritManager.isFavorite(this, namaWisata)) {
+            wisataData?.let { wisata ->
+                if (FavoritManager.isFavorit(this, wisata.namaWisata, wisata.rating, wisata.lokasi)) {
                     // Remove from favorites
-                    FavoritManager.removeFavorite(this, namaWisata)
-                    Toast.makeText(this, "$namaWisata dihapus dari favorit", Toast.LENGTH_SHORT).show()
+                    FavoritManager.removeFromFavorit(this, wisata.namaWisata, wisata.rating, wisata.lokasi)
+                    Toast.makeText(this, "${wisata.namaWisata} dihapus dari favorit", Toast.LENGTH_SHORT).show()
                 } else {
                     // Add to favorites
-                    FavoritManager.addFavorite(this, data)
-                    Toast.makeText(this, "$namaWisata ditambahkan ke favorit", Toast.LENGTH_SHORT).show()
+                    FavoritManager.addToFavorit(this, wisata.namaWisata, wisata.rating, wisata.lokasi)
+                    Toast.makeText(this, "${wisata.namaWisata} ditambahkan ke favorit", Toast.LENGTH_SHORT).show()
                 }
 
                 updateFavoritButtonState()
@@ -103,33 +112,29 @@ class DetailWisataActivity : AppCompatActivity() {
 
     private fun setupMapsButton() {
         findViewById<ImageView>(R.id.btnOpenMaps).setOnClickListener {
-            // Open location in Google Maps
-            // Using Dieng Plateau coordinates as example
-            val latitude = -7.2094 // Dieng Plateau latitude
-            val longitude = 109.9036 // Dieng Plateau longitude
-            val namaWisata = currentWisataData?.get("nama_wisata") ?: "Wisata"
+            wisataData?.let { wisata ->
+                val uri = "geo:${wisata.latitude},${wisata.longitude}?q=${wisata.latitude},${wisata.longitude}(${wisata.namaWisata})"
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+                intent.setPackage("com.google.android.apps.maps")
 
-            val uri = "geo:$latitude,$longitude?q=$latitude,$longitude($namaWisata)"
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
-            intent.setPackage("com.google.android.apps.maps")
-
-            if (intent.resolveActivity(packageManager) != null) {
-                startActivity(intent)
-            } else {
-                // If Google Maps is not installed, open in browser
-                val browserUri = "https://www.google.com/maps/search/?api=1&query=$latitude,$longitude"
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(browserUri))
-                startActivity(browserIntent)
+                if (intent.resolveActivity(packageManager) != null) {
+                    startActivity(intent)
+                } else {
+                    // If Google Maps is not installed, open in browser
+                    val browserUri = "https://www.google.com/maps?q=${wisata.latitude},${wisata.longitude}"
+                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(browserUri))
+                    startActivity(browserIntent)
+                }
+            } ?: run {
+                Toast.makeText(this, "Data lokasi tidak tersedia", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun updateFavoritButtonState() {
         val btnFavorite = findViewById<ImageView>(R.id.btn_favorite)
-        currentWisataData?.let { data ->
-            val namaWisata = data["nama_wisata"] ?: return@let
-
-            if (FavoritManager.isFavorite(this, namaWisata)) {
+        wisataData?.let { wisata ->
+            if (FavoritManager.isFavorit(this, wisata.namaWisata, wisata.rating, wisata.lokasi)) {
                 btnFavorite.setImageResource(R.drawable.ic_heart_filled)
             } else {
                 btnFavorite.setImageResource(R.drawable.ic_heart)

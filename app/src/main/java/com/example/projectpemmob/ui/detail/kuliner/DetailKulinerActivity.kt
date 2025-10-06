@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.projectpemmob.R
+import com.example.projectpemmob.data.model.Kuliner
 import com.example.projectpemmob.ui.favorit.FavoritActivity
 import com.example.projectpemmob.ui.home.HomepageActivity
 import com.example.projectpemmob.ui.kuliner.KulinerActivity
@@ -16,35 +17,45 @@ import com.example.projectpemmob.utils.FavoritManager
 
 class DetailKulinerActivity : AppCompatActivity() {
 
-    private var currentKulinerData: HashMap<String, String>? = null
+    private var kulinerData: Kuliner? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_kuliner)
 
-        // Get data from intent
-        val namaKuliner = intent.getStringExtra("nama_kuliner") ?: "Gudeg Yu Djum"
-        val rating = intent.getStringExtra("rating") ?: "4.5"
-        val lokasi = intent.getStringExtra("lokasi") ?: "Yogyakarta, Jawa Tengah"
-        val description = intent.getStringExtra("description") ?: "Gudeg Yu Djum adalah salah satu kuliner khas Yogyakarta yang sangat terkenal. Dengan cita rasa manis gurih yang khas, gudeg ini menggunakan resep turun temurun yang telah diwariskan sejak puluhan tahun."
-
-        // Store current kuliner data
-        currentKulinerData = hashMapOf(
-            "nama_kuliner" to namaKuliner,
-            "rating" to rating,
-            "lokasi" to lokasi,
-            "description" to description
-        )
-
-        // Setup views
-        setupViews(namaKuliner, rating, lokasi, description)
+        // Get Kuliner object from intent
+        kulinerData = intent.getParcelableExtra("kuliner")
+        
+        if (kulinerData != null) {
+            setupKulinerData(kulinerData!!)
+        } else {
+            // Fallback to old method if object not found
+            val namaKuliner = intent.getStringExtra("nama_kuliner") ?: "Gudeg Yu Djum"
+            val rating = intent.getStringExtra("rating") ?: "4.5"
+            val lokasi = intent.getStringExtra("lokasi") ?: "Yogyakarta, Jawa Tengah"
+            setupKulinerDataLegacy(namaKuliner, rating, lokasi)
+        }
 
         // Setup buttons
         setupBackButton()
         setupMapsButton()
     }
-
-    private fun setupViews(namaKuliner: String, rating: String, lokasi: String, description: String) {
+    
+    private fun setupKulinerData(kuliner: Kuliner) {
+        // Setup views with dynamic data
+        findViewById<TextView>(R.id.tv_nama_kuliner).text = kuliner.namaKuliner
+        findViewById<TextView>(R.id.tv_rating).text = kuliner.rating
+        findViewById<TextView>(R.id.tv_location).text = kuliner.lokasi
+        findViewById<TextView>(R.id.tv_description).text = kuliner.description
+        
+        // Set image
+        findViewById<ImageView>(R.id.img_kuliner_main).setImageResource(kuliner.imageResource)
+    }
+    
+    private fun setupKulinerDataLegacy(namaKuliner: String, rating: String, lokasi: String) {
+        // Fallback method for old intent extras
+        val description = "Deskripsi kuliner akan ditampilkan di sini."
+        
         findViewById<TextView>(R.id.tv_nama_kuliner).text = namaKuliner
         findViewById<TextView>(R.id.tv_rating).text = rating
         findViewById<TextView>(R.id.tv_location).text = lokasi
@@ -59,24 +70,22 @@ class DetailKulinerActivity : AppCompatActivity() {
 
     private fun setupMapsButton() {
         findViewById<ImageView>(R.id.btnOpenMaps).setOnClickListener {
-            // Open location in Google Maps
-            // Using Yogyakarta coordinates as example for culinary
-            val latitude = -7.7956 // Yogyakarta latitude
-            val longitude = 110.3695 // Yogyakarta longitude
-            val namaKuliner = currentKulinerData?.get("nama_kuliner") ?: "Kuliner"
+            kulinerData?.let { kuliner ->
+                val uri = "geo:${kuliner.latitude},${kuliner.longitude}?q=${kuliner.latitude},${kuliner.longitude}(${kuliner.namaKuliner})"
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+                intent.setPackage("com.google.android.apps.maps")
 
-            val uri = "geo:$latitude,$longitude?q=$latitude,$longitude($namaKuliner)"
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
-            intent.setPackage("com.google.android.apps.maps")
-
-            if (intent.resolveActivity(packageManager) != null) {
-                startActivity(intent)
-            } else {
-                // If Google Maps is not installed, open in browser
-                val browserUri = "https://www.google.com/maps/search/?api=1&query=$latitude,$longitude"
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(browserUri))
-                startActivity(browserIntent)
+                if (intent.resolveActivity(packageManager) != null) {
+                    startActivity(intent)
+                } else {
+                    // If Google Maps is not installed, open in browser
+                    val browserUri = "https://www.google.com/maps?q=${kuliner.latitude},${kuliner.longitude}"
+                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(browserUri))
+                    startActivity(browserIntent)
+                }
+            } ?: run {
+                android.widget.Toast.makeText(this, "Data lokasi tidak tersedia", android.widget.Toast.LENGTH_SHORT).show()
             }
         }
     }
-}
+        }

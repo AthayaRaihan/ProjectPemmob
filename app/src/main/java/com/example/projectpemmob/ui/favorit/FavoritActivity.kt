@@ -7,6 +7,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.projectpemmob.R
 import com.example.projectpemmob.ui.detail.wisata.DetailWisataActivity
 import com.example.projectpemmob.ui.home.HomepageActivity
@@ -16,12 +18,14 @@ import com.example.projectpemmob.utils.FavoritManager
 import androidx.activity.viewModels
 import com.example.projectpemmob.data.model.FavoriteItem
 import com.example.projectpemmob.ui.favorit.FavoriteViewModel
+import com.example.projectpemmob.ui.favorit.adapter.FavoritAdapter
 import com.example.projectpemmob.ui.profil.ProfileActivity
 
 class FavoritActivity : AppCompatActivity() {
 
     private lateinit var emptyStateLayout: LinearLayout
-    private lateinit var favoritListLayout: LinearLayout
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var favoritAdapter: FavoritAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,23 +33,26 @@ class FavoritActivity : AppCompatActivity() {
 
         // Initialize views
         emptyStateLayout = findViewById(R.id.empty_state_layout)
-        favoritListLayout = findViewById(R.id.favorit_list_layout)
+        recyclerView = findViewById(R.id.rv_favorit)
+        
+        // Setup RecyclerView
+        setupRecyclerView()
 
-    // Setup bottom navigation (shared handler)
-    com.example.projectpemmob.ui.navigation.BottomNavigationHandler(this).setupBottomNavigation()
-    // Ensure no transition animation so bottom nav appears static when returning
-    overridePendingTransition(0, 0)
+        // Setup bottom navigation (shared handler)
+        com.example.projectpemmob.ui.navigation.BottomNavigationHandler(this).setupBottomNavigation()
+        // Ensure no transition animation so bottom nav appears static when returning
+        overridePendingTransition(0, 0)
 
         // Use ViewModel to load and observe favorites
         val viewModel: FavoriteViewModel by viewModels()
         viewModel.favorites.observe(this) { list ->
             if (list.isEmpty()) {
                 emptyStateLayout.visibility = View.VISIBLE
-                favoritListLayout.visibility = View.GONE
+                recyclerView.visibility = View.GONE
             } else {
                 emptyStateLayout.visibility = View.GONE
-                favoritListLayout.visibility = View.VISIBLE
-                populateFavoritListFromModels(list, viewModel)
+                recyclerView.visibility = View.VISIBLE
+                favoritAdapter.updateData(list)
             }
         }
 
@@ -59,6 +66,16 @@ class FavoritActivity : AppCompatActivity() {
         // initial load
         viewModel.loadFavorites()
     }
+    
+    private fun setupRecyclerView() {
+        favoritAdapter = FavoritAdapter(listOf(), this) { favoriteItem ->
+            // Handle remove favorit
+            val viewModel: FavoriteViewModel by viewModels()
+            viewModel.removeFavorite(favoriteItem)
+        }
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = favoritAdapter
+    }
 
     override fun onResume() {
         super.onResume()
@@ -66,44 +83,4 @@ class FavoritActivity : AppCompatActivity() {
         val viewModel: FavoriteViewModel by viewModels()
         viewModel.loadFavorites()
     }
-
-    private fun populateFavoritListFromModels(list: List<FavoriteItem>, viewModel: FavoriteViewModel) {
-        favoritListLayout.removeAllViews()
-
-        for (item in list) {
-            addFavoritCardModel(item, viewModel)
-        }
-    }
-
-    private fun addFavoritCardModel(item: FavoriteItem, viewModel: FavoriteViewModel) {
-        val cardView = layoutInflater.inflate(R.layout.item_favorit_card, favoritListLayout, false) as CardView
-
-        // Set data to card
-        cardView.findViewById<TextView>(R.id.tv_nama_wisata_favorit).text = item.nama
-        cardView.findViewById<TextView>(R.id.tv_rating_favorit).text = item.rating
-
-        // Add click listener to open detail
-        cardView.setOnClickListener {
-            openDetailWisata(item.nama, item.rating, item.lokasi)
-        }
-
-        // Add remove from favorit functionality via ViewModel
-        cardView.findViewById<View>(R.id.btn_remove_favorit).setOnClickListener {
-            viewModel.removeFavorite(item)
-        }
-
-        favoritListLayout.addView(cardView)
-    }
-
-    
-
-    private fun openDetailWisata(namaWisata: String, rating: String, lokasi: String) {
-        val intent = Intent(this, DetailWisataActivity::class.java)
-        intent.putExtra("nama_wisata", namaWisata)
-        intent.putExtra("rating", rating)
-        intent.putExtra("lokasi", lokasi)
-        startActivity(intent)
-    }
-
-    // Navigation handled by BottomNavigationHandler
 }

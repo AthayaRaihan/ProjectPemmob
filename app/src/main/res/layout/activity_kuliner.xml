@@ -43,20 +43,6 @@
             android:orientation="vertical"
             android:paddingHorizontal="20dp">
 
-            <!-- Title -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textColor="@android:color/white"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="20dp"
-                android:shadowColor="#80000000"
-                android:shadowDx="2"
-                android:shadowDy="2"
-                android:shadowRadius="4" />
-
             <!-- Search Bar -->
             <LinearLayout
                 android:id="@+id/search_container"
@@ -75,6 +61,7 @@
                     android:layout_marginEnd="12dp" />
 
                 <EditText
+                    android:id="@+id/et_search_kuliner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -94,7 +81,7 @@
                 android:weightSum="4">
 
                 <TextView
-                    android:id="@+id/btn_cemilan"
+                    android:id="@+id/btn_mie"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -103,13 +90,13 @@
                     android:gravity="center"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="8dp"
-                    android:text="Cemilan"
+                    android:text="Mie"
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/btn_kuah"
+                    android:id="@+id/btn_sate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -119,12 +106,12 @@
                     android:gravity="center"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="8dp"
-                    android:text="Kuah"
+                    android:text="Sate"
                     android:textColor="@android:color/white"
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/btn_kering"
+                    android:id="@+id/btn_kripik"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -134,12 +121,12 @@
                     android:gravity="center"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="8dp"
-                    android:text="Kering"
+                    android:text="Kripik"
                     android:textColor="@android:color/white"
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/btn_hangat"
+                    android:id="@+id/btn_lainnya"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -148,7 +135,7 @@
                     android:gravity="center"
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="8dp"
-                    android:text="Hangat"
+                    android:text="Lainnya"
                     android:textColor="@android:color/white"
                     android:textSize="12sp" />
 
@@ -164,250 +151,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingHorizontal="20dp"
-        android:paddingTop="30dp">
-
-        <!-- First Culinary Card - Mie Ongklok Abang Adek -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_mie_ongklok"
+        android:paddingTop="20dp"
+        android:background="@color/light_background">
+        
+        <!-- RecyclerView for Kuliner List -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_kuliner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="@android:color/white">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <!-- Image Container -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="0dp">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/culinary_noodles" />                </androidx.cardview.widget.CardView>
-
-                <!-- Card Info -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Mie Ongklok Abang Adek"
-                            android:textColor="@color/dark_text"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_star"
-                            android:layout_marginEnd="6dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="4.8"
-                            android:textColor="@color/dark_text"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <!-- Second Culinary Card - Mie Ongklok Ibu Bapak -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_mie_ongklok_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="@android:color/white">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <!-- Image Container -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="0dp">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/culinary_noodles" />                </androidx.cardview.widget.CardView>
-
-                <!-- Card Info -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Mie Ongklok Ibu Bapak"
-                            android:textColor="@color/dark_text"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_star"
-                            android:layout_marginEnd="6dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="4.7"
-                            android:textColor="@color/dark_text"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <!-- Third Culinary Card - Sate Buntel -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_sate_buntel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="@android:color/white">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <!-- Image Container -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="0dp">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/culinary_1" />                </androidx.cardview.widget.CardView>
-
-                <!-- Card Info -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Sate Buntel Khas Wonosobo"
-                            android:textColor="@color/dark_text"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_star"
-                            android:layout_marginEnd="6dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="4.6"
-                            android:textColor="@color/dark_text"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
+            android:layout_marginBottom="20dp" />
 
     </LinearLayout>
 

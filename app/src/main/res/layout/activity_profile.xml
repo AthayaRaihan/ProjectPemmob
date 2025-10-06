@@ -137,18 +137,19 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="0dp"
-                app:cardBackgroundColor="#F5F5F5">
+                app:cardBackgroundColor="@color/light_gray">
 
                 <EditText
                     android:id="@+id/et_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:hint="Rafif Surya"
+                    android:background="@drawable/edittext_background_selector"
+                    android:hint="Masukkan nama"
                     android:padding="16dp"
                     android:textColor="@color/dark_text"
                     android:textColorHint="@color/hint_color"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:enabled="false" />
 
             </androidx.cardview.widget.CardView>
 
@@ -175,60 +176,31 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="0dp"
-                app:cardBackgroundColor="#F5F5F5">
+                app:cardBackgroundColor="@color/light_gray">
 
                 <EditText
                     android:id="@+id/et_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:hint="rafifsurya@gmail.com"
+                    android:background="@drawable/edittext_background_selector"
+                    android:hint="Masukkan email"
+                    android:inputType="textEmailAddress"
                     android:padding="16dp"
                     android:textColor="@color/dark_text"
                     android:textColorHint="@color/hint_color"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:enabled="false" />
 
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
-        <!-- Action Buttons -->
-        <LinearLayout
+        <!-- Action Button -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:orientation="horizontal">
 
-            <!-- Reset Password Button -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="#E53E3E">
-
-                <TextView
-                    android:id="@+id/btn_reset_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:padding="16dp"
-                    android:text="Reset Password"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-            </androidx.cardview.widget.CardView>
-
-            <!-- Edit Button -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="0dp"
                 app:cardBackgroundColor="#319795">
@@ -246,8 +218,6 @@
                     android:textStyle="bold" />
 
             </androidx.cardview.widget.CardView>
-
-        </LinearLayout>
 
 
 
