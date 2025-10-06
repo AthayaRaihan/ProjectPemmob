@@ -220,7 +220,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:scaleType="centerCrop"
-                                        android:src="@drawable/background_login" />
+                                        android:src="@drawable/dieng_plateau_1" />
 
                                     <!-- Heart Icon -->
                                     <ImageView
@@ -321,11 +321,11 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:scaleType="centerCrop"
-                                        android:src="@drawable/background_login" />
+                                        android:src="@drawable/prau1" />
 
                                     <!-- Heart Icon -->
                                     <ImageView
-                                        android:id="@+id/heart_homepage_dieng_2"
+                                        android:id="@+id/heart_gunung_prau"
                                         android:layout_width="24dp"
                                         android:layout_height="24dp"
                                         android:layout_alignParentTop="true"
@@ -356,7 +356,7 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="Dieng Plateau"
+                                        android:text="Gunung Prau"
                                         android:textColor="@color/dark_text"
                                         android:textSize="14sp"
                                         android:textStyle="bold" />
@@ -421,11 +421,11 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:scaleType="centerCrop"
-                                        android:src="@drawable/background_login" />
+                                        android:src="@drawable/warna1" />
 
                                     <!-- Heart Icon -->
                                     <ImageView
-                                        android:id="@+id/heart_homepage_telaga_warna"
+                                        android:id="@+id/heart_telaga_warna"
                                         android:layout_width="24dp"
                                         android:layout_height="24dp"
                                         android:layout_alignParentTop="true"
@@ -632,6 +632,7 @@
 
                     <!-- First Culinary Card -->
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/card_homepage_kuliner_1"
                         android:layout_width="280dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
@@ -656,7 +657,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:scaleType="centerCrop"
-                                    android:src="@drawable/culinary_noodles" />
+                                    android:src="@drawable/ongklok1" />
 
                             </androidx.cardview.widget.CardView>
 

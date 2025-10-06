@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -56,6 +57,7 @@ import com.example.projectpemmob.utils.FavoritManager
                 }
                 
                 setupCardClickListeners()
+                setupDynamicHomepageContent()
 
                 // Load home content by default and set icon state
                 loadHomeContent()
@@ -267,7 +269,7 @@ import com.example.projectpemmob.utils.FavoritManager
                         }
 
                     // Setup favorite button untuk Kawah Sikidang di homepage
-                    contentLayout.findViewById<ImageView>(R.id.heart_homepage_dieng_2)
+                    contentLayout.findViewById<ImageView>(R.id.heart_gunung_prau)
                         ?.let { favoriteButton ->
                             val wisata = WisataRepository.getWisataById(6) // Kawah Sikidang
                             wisata?.let {
@@ -279,7 +281,7 @@ import com.example.projectpemmob.utils.FavoritManager
                         }
 
                     // Setup favorite button untuk Telaga Warna di homepage
-                    contentLayout.findViewById<ImageView>(R.id.heart_homepage_telaga_warna)
+                    contentLayout.findViewById<ImageView>(R.id.heart_telaga_warna)
                         ?.let { favoriteButton ->
                             val wisata = WisataRepository.getWisataById(5) // Telaga Warna
                             wisata?.let {
@@ -316,6 +318,177 @@ import com.example.projectpemmob.utils.FavoritManager
             private fun openDetailWisata(namaWisata: String, rating: String, lokasi: String) {
                 val wisata = WisataRepository.getWisataByName(namaWisata)
                 wisata?.let { openDetailWisata(it.id) }
+            }
+
+            private fun setupDynamicHomepageContent() {
+                try {
+                    // Update wisata cards dengan data dari repository
+                    updateWisataCard(R.id.card_homepage_dieng_1, 7) // Dieng Plateau
+                    updateWisataCard(R.id.card_homepage_dieng_2, 6) // Kawah Sikidang  
+                    updateWisataCard(R.id.card_homepage_telaga_warna, 5) // Telaga Warna
+                    updateWisataCard(R.id.card_homepage_arjuna, 8) // Candi Arjuna
+
+                    // Update kuliner card dengan data dari repository
+                    updateKulinerCard(0, 1) // Mie Ongklok - gunakan index karena tidak ada ID khusus
+                } catch (e: Exception) {
+                    android.util.Log.e("HomepageActivity", "Error setting up dynamic content", e)
+                }
+            }
+
+            private fun updateWisataCard(cardId: Int, wisataId: Int) {
+                try {
+                    val wisata = WisataRepository.getWisataById(wisataId)
+                    wisata?.let { w ->
+                        val card = contentLayout.findViewById<CardView>(cardId)
+                        card?.let { cardView ->
+                            // Update text dan gambar menggunakan traverse method
+                            updateTextInCard(cardView, w.namaWisata, w.rating)
+                            updateImageInCard(cardView, w.imageResource)
+                        }
+                    }
+                } catch (e: Exception) {
+                    android.util.Log.e("HomepageActivity", "Error updating wisata card $cardId", e)
+                }
+            }
+
+            private fun updateTextInCard(cardView: CardView, namaWisata: String, rating: String) {
+                try {
+                    // Traverse semua TextView dalam card untuk menemukan yang tepat
+                    val textViews = getAllTextViews(cardView)
+                    textViews.forEachIndexed { index, textView ->
+                        when {
+                            textView.text.toString().contains("Dieng") || 
+                            textView.text.toString().contains("Kawah") ||
+                            textView.text.toString().contains("Telaga") ||
+                            textView.text.toString().contains("Candi") -> {
+                                textView.text = namaWisata
+                            }
+                            textView.text.toString().matches(Regex("\\d\\.\\d")) -> {
+                                textView.text = rating
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    android.util.Log.e("HomepageActivity", "Error updating text in card", e)
+                }
+            }
+
+            private fun updateImageInCard(cardView: CardView, imageResource: Int) {
+                try {
+                    val imageViews = getAllImageViews(cardView)
+                    // Update ImageView utama (biasanya yang pertama dan bukan heart icon)
+                    imageViews.find { it.id != R.id.heart_homepage_dieng_1 && 
+                                     it.id != R.id.heart_gunung_prau &&
+                                     it.id != R.id.heart_telaga_warna &&
+                                     it.id != R.id.heart_homepage_arjuna &&
+                                     it.scaleType == ImageView.ScaleType.CENTER_CROP }
+                        ?.setImageResource(imageResource)
+                } catch (e: Exception) {
+                    android.util.Log.e("HomepageActivity", "Error updating image in card", e)
+                }
+            }
+
+            private fun getAllTextViews(view: View): List<TextView> {
+                val textViews = mutableListOf<TextView>()
+                if (view is TextView) {
+                    textViews.add(view)
+                } else if (view is ViewGroup) {
+                    for (i in 0 until view.childCount) {
+                        textViews.addAll(getAllTextViews(view.getChildAt(i)))
+                    }
+                }
+                return textViews
+            }
+
+            private fun getAllImageViews(view: View): List<ImageView> {
+                val imageViews = mutableListOf<ImageView>()
+                if (view is ImageView) {
+                    imageViews.add(view)
+                } else if (view is ViewGroup) {
+                    for (i in 0 until view.childCount) {
+                        imageViews.addAll(getAllImageViews(view.getChildAt(i)))
+                    }
+                }
+                return imageViews
+            }
+
+            private fun updateKulinerCard(cardId: Int, kulinerId: Int) {
+                try {
+                    val kuliner = KulinerRepository.getKulinerById(kulinerId)
+                    kuliner?.let { k ->
+                        // Untuk kuliner, kita akan mencari card kuliner berdasarkan text content
+                        val kulinerCards = findKulinerCards()
+                        kulinerCards.firstOrNull()?.let { cardView ->
+                            // Update text dalam card kuliner
+                            updateKulinerTextInCard(cardView, k.namaKuliner, k.rating)
+                            
+                            // Update gambar kuliner
+                            updateKulinerImageInCard(cardView, k.imageResource)
+                        }
+                    }
+                } catch (e: Exception) {
+                    android.util.Log.e("HomepageActivity", "Error updating kuliner card $cardId", e)
+                }
+            }
+
+            private fun findKulinerCards(): List<CardView> {
+                val kulinerCards = mutableListOf<CardView>()
+                try {
+                    // Cari semua CardView yang mengandung text "Mie Ongklok" atau kuliner lainnya
+                    val allCardViews = getAllCardViews(contentLayout)
+                    allCardViews.forEach { cardView ->
+                        val textViews = getAllTextViews(cardView)
+                        if (textViews.any { it.text.toString().contains("Mie", ignoreCase = true) ||
+                                           it.text.toString().contains("Kuliner", ignoreCase = true) }) {
+                            kulinerCards.add(cardView)
+                        }
+                    }
+                } catch (e: Exception) {
+                    android.util.Log.e("HomepageActivity", "Error finding kuliner cards", e)
+                }
+                return kulinerCards
+            }
+
+            private fun getAllCardViews(view: View): List<CardView> {
+                val cardViews = mutableListOf<CardView>()
+                if (view is CardView) {
+                    cardViews.add(view)
+                } else if (view is ViewGroup) {
+                    for (i in 0 until view.childCount) {
+                        cardViews.addAll(getAllCardViews(view.getChildAt(i)))
+                    }
+                }
+                return cardViews
+            }
+
+            private fun updateKulinerTextInCard(cardView: CardView, namaKuliner: String, rating: String) {
+                try {
+                    val textViews = getAllTextViews(cardView)
+                    textViews.forEach { textView ->
+                        when {
+                            textView.text.toString().contains("Mie", ignoreCase = true) -> {
+                                textView.text = namaKuliner
+                            }
+                            textView.text.toString().matches(Regex("\\d\\.\\d")) -> {
+                                textView.text = rating
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    android.util.Log.e("HomepageActivity", "Error updating kuliner text", e)
+                }
+            }
+
+            private fun updateKulinerImageInCard(cardView: CardView, imageResource: Int) {
+                try {
+                    val imageViews = getAllImageViews(cardView)
+                    // Update ImageView utama untuk kuliner (yang menggunakan culinary_noodles)
+                    imageViews.find { it.scaleType == ImageView.ScaleType.CENTER_CROP && 
+                                     it.drawable != null }
+                        ?.setImageResource(imageResource)
+                } catch (e: Exception) {
+                    android.util.Log.e("HomepageActivity", "Error updating kuliner image", e)
+                }
             }
 
             private fun setupTourismClickListeners(tourismView: android.view.View) {
