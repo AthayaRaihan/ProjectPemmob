@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/listdestinasi" />
+            android:src="@drawable/fav" />
 
         <!-- Gradient Overlay -->
         <View
@@ -44,45 +44,8 @@
             android:paddingHorizontal="20dp">
 
             <!-- Title -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Destinasi Favorit Saya"
-                android:textAlignment="center"
-                android:textColor="@android:color/white"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="20dp"
-                android:shadowColor="#80000000"
-                android:shadowDx="2"
-                android:shadowDy="2"
-                android:shadowRadius="4" />            <!-- Search Bar -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/search_background"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="12dp"
-                android:layout_marginBottom="20dp">
+            <!-- Search Bar -->
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_search"
-                    android:layout_marginEnd="12dp" />
-
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:hint="Cari wisata favorit Anda..."
-                    android:textColorHint="@color/hint_color"
-                    android:textSize="14sp"
-                    android:textColor="@color/dark_text" />
-
-            </LinearLayout>
 
             <!-- Filter Categories -->
             <LinearLayout

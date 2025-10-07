@@ -174,9 +174,14 @@ class WisataActivity : AppCompatActivity() {
                 it.namaWisata.contains("Curug", ignoreCase = true) ||
                 it.namaWisata.contains("Air Terjun", ignoreCase = true)
             }
-            "Agrowisata" -> allWisataList.filter { 
-                it.namaWisata.contains("Agro", ignoreCase = true) ||
-                it.kategori.contains("Agrowisata", ignoreCase = true)
+            "Agrowisata" -> allWisataList.filter {
+                it.namaWisata.contains("Bukit", ignoreCase = true) ||
+                        it.namaWisata.contains("Telaga", ignoreCase = true) ||
+                        it.namaWisata.contains("Curug", ignoreCase = true) ||
+                        it.namaWisata.contains("Gunung", ignoreCase = true) ||
+                it.namaWisata.contains("Danau", ignoreCase = true) ||
+                        it.namaWisata.contains("Dieng", ignoreCase = true) ||
+                        it.namaWisata.contains("Kawah", ignoreCase = true)
             }
             else -> allWisataList
         }

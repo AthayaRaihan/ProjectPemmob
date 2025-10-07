@@ -282,9 +282,9 @@
         android:id="@+id/login_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="40dp"
+        android:layout_centerInParent="true"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
         app:cardBackgroundColor="#3182CE"

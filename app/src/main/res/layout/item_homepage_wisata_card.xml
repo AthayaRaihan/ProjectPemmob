@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="200dp"
-    android:layout_height="wrap_content"
+    android:layout_width="280dp"
+    android:layout_height="180dp"
     android:layout_marginEnd="12dp"
     app:cardCornerRadius="12dp"
     app:cardElevation="4dp"
@@ -17,7 +17,7 @@
         <!-- Image Container -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="140dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="0dp">
 
@@ -35,14 +35,14 @@
                 <!-- Heart Icon -->
                 <ImageView
                     android:id="@+id/heart_homepage_wisata"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_margin="6dp"
+                    android:layout_margin="8dp"
                     android:src="@drawable/ic_heart"
                     android:background="@drawable/circle_white_background"
-                    android:padding="4dp" />
+                    android:padding="5dp" />
 
             </RelativeLayout>
 
@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:text="Dieng Plateau"
                     android:textColor="@color/dark_text"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
                     android:maxLines="1"
                     android:ellipsize="end" />
@@ -82,10 +82,10 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
                     android:src="@drawable/ic_star"
-                    android:layout_marginEnd="2dp" />
+                    android:layout_marginEnd="3dp" />
 
                 <TextView
                     android:id="@+id/tv_homepage_wisata_rating"
@@ -93,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:text="4.8"
                     android:textColor="@color/dark_text"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
             </LinearLayout>

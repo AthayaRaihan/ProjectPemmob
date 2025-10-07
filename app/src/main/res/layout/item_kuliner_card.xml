@@ -33,15 +33,7 @@
                     android:src="@drawable/background_login" />
 
                 <!-- Heart Icon -->
-                <ImageView
-                    android:id="@+id/iv_heart"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_margin="12dp"
-                    android:src="@drawable/ic_heart"
-                    android:padding="6dp" />
+
 
             </RelativeLayout>
 

@@ -23,7 +23,7 @@ class KulinerAdapter(
         val ivKuliner: ImageView = itemView.findViewById(R.id.iv_kuliner)
         val tvNamaKuliner: TextView = itemView.findViewById(R.id.tv_nama_kuliner)
         val tvRating: TextView = itemView.findViewById(R.id.tv_rating)
-        val ivHeart: ImageView = itemView.findViewById(R.id.iv_heart)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): KulinerViewHolder {
@@ -43,7 +43,7 @@ class KulinerAdapter(
         holder.ivKuliner.setImageResource(kuliner.imageResource)
         
         // Set heart icon state
-        updateHeartIcon(holder.ivHeart, kuliner)
+
         
         // Card click listener
         holder.itemView.setOnClickListener {
@@ -52,10 +52,7 @@ class KulinerAdapter(
             context.startActivity(intent)
         }
         
-        // Heart click listener
-        holder.ivHeart.setOnClickListener {
-            toggleFavorit(holder.ivHeart, kuliner)
-        }
+      
     }
 
     override fun getItemCount(): Int = kulinerList.size

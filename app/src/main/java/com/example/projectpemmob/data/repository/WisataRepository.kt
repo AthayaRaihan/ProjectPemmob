@@ -49,7 +49,7 @@ object WisataRepository {
             rating = "4.8",
             lokasi = "Kalimanah, Wonosobo, Jawa Tengah",
             description = "Dieng Plateau atau dataran tinggi Dieng, merupakan salah satu situs bersejarah paling terkenal di Jawa Tengah, Indonesia. Terletak di ketinggian 2.000 meter di atas permukaan laut, kawasan ini menawarkan pemandangan alam yang spektakuler dengan udara yang sejuk dan segar. Dieng terkenal dengan kompleks candi Hindu kuno dari abad ke-7 hingga ke-8 Masehi, yang merupakan bukti peradaban Jawa kuno yang megah.\n\nSelain candi bersejarah, Dieng juga memiliki berbagai fenomena alam yang menarik seperti kawah aktif, telaga berwarna-warni, dan hamparan kebun kentang yang hijau. Kawasan ini menjadi destinasi favorit wisatawan yang mencari ketenangan, petualangan, dan pengalaman spiritual yang mendalam. Dieng juga terkenal dengan fenomena embun upas yang terjadi pada musim kemarau.",
-            imageResource = R.drawable.dieng_plateau_1,
+            imageResource = R.drawable.plateau,
             latitude = -7.2094,
             longitude = 109.9036,
             harga = "Rp 15.000",
