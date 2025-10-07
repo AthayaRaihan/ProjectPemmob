@@ -91,7 +91,7 @@ class HomepageActivity : AppCompatActivity() {
         
         // Add dynamic cards for top wisata
         topWisataList.forEach { wisata ->
-            val cardView = layoutInflater.inflate(R.layout.item_homepage_wisata_card, null)
+            val cardView = layoutInflater.inflate(R.layout.item_homepage_wisata_card, wisataContainer, false)
             
             // Set card data
             cardView.findViewById<ImageView>(R.id.img_homepage_wisata)?.setImageResource(wisata.imageResource)
@@ -136,7 +136,7 @@ class HomepageActivity : AppCompatActivity() {
         
         // Add dynamic cards for top kuliner
         topKulinerList.forEach { kuliner ->
-            val cardView = layoutInflater.inflate(R.layout.item_homepage_kuliner_card, null)
+            val cardView = layoutInflater.inflate(R.layout.item_homepage_kuliner_card, kulinerContainer, false)
             
             // Set card data
             cardView.findViewById<ImageView>(R.id.img_homepage_kuliner)?.setImageResource(kuliner.imageResource)
@@ -149,8 +149,7 @@ class HomepageActivity : AppCompatActivity() {
             }
             
             // Setup favorite button
-            val heartIcon = cardView.findViewById<ImageView>(R.id.heart_homepage_kuliner)
-            setupKulinerFavoriteButton(kuliner, heartIcon)
+
             
             // Add to container
             kulinerContainer?.addView(cardView)

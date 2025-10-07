@@ -310,13 +310,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginHorizontal="20dp">
+        android:layout_marginBottom="0dp"
+        android:layout_marginHorizontal="0dp">
         
         <include
-            layout="@layout/layout_bottom_navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            layout="@layout/layout_bottom_navigation"/>
     </LinearLayout>
 
 </RelativeLayout>
