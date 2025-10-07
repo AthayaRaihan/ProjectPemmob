@@ -33,16 +33,7 @@
                     android:src="@drawable/background_login" />
 
                 <!-- Heart Icon -->
-                <ImageView
-                    android:id="@+id/heart_homepage_wisata"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_margin="8dp"
-                    android:src="@drawable/ic_heart"
-                    android:background="@drawable/circle_white_background"
-                    android:padding="5dp" />
+
 
             </RelativeLayout>
 

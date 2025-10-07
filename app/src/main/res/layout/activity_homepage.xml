@@ -70,9 +70,10 @@
 
             <!-- Search Bar -->
             <LinearLayout
+                android:id="@+id/search_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/search_background"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -85,6 +86,7 @@
                     android:layout_marginEnd="12dp" />
 
                 <EditText
+                    android:id="@+id/et_search"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -204,5 +206,32 @@
         <include
             layout="@layout/layout_bottom_navigation" />
     </LinearLayout>
+
+    <!-- Search Dropdown Overlay - Fixed positioning -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/search_dropdown_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="250dp"
+        android:visibility="gone"
+        android:elevation="24dp"
+        android:translationZ="24dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="16dp"
+        app:cardBackgroundColor="@android:color/white">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_search_dropdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="280dp"
+            android:scrollbars="vertical"
+            android:nestedScrollingEnabled="false"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp" />
+
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

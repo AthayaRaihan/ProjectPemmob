@@ -26,8 +26,8 @@ class DetailWisataActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_wisata)
 
-        // Get Wisata object from intent
-        wisataData = intent.getParcelableExtra("wisata_data")
+        // Get Wisata object from intent - check both possible keys
+        wisataData = intent.getParcelableExtra("wisata") ?: intent.getParcelableExtra("wisata_data")
         
         if (wisataData != null) {
             setupWisataData(wisataData!!)

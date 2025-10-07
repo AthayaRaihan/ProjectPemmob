@@ -3,17 +3,26 @@ package com.example.projectpemmob.ui.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.projectpemmob.R
 import com.example.projectpemmob.data.model.Wisata
 import com.example.projectpemmob.data.model.Kuliner
+import com.example.projectpemmob.data.model.SearchResult
 import com.example.projectpemmob.data.repository.WisataRepository
 import com.example.projectpemmob.data.repository.KulinerRepository
 import com.example.projectpemmob.ui.detail.wisata.DetailWisataActivity
@@ -26,6 +35,14 @@ class HomepageActivity : AppCompatActivity() {
 
     private var topWisataList: List<Wisata> = emptyList()
     private var topKulinerList: List<Kuliner> = emptyList()
+    private var allWisataList: List<Wisata> = emptyList()
+    private var allKulinerList: List<Kuliner> = emptyList()
+    
+    // Search components
+    private lateinit var etSearch: EditText
+    private lateinit var searchDropdownContainer: CardView
+    private lateinit var rvSearchDropdown: RecyclerView
+    private lateinit var searchAdapter: SearchDropdownAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,12 +58,18 @@ class HomepageActivity : AppCompatActivity() {
 
         // Set greeting text
         setupGreetingText()
+        
+        // Setup search functionality
+        setupSearchFunctionality()
 
         // Setup dynamic cards
         setupDynamicCards()
 
         // Setup favorite button listeners
         setupDynamicFavoriteButtons()
+        
+        // Setup back pressed callback
+        setupBackPressedCallback()
     }
 
     private fun setupGreetingText() {
@@ -63,17 +86,240 @@ class HomepageActivity : AppCompatActivity() {
     }
     
     private fun loadTopWisataAndKuliner() {
+        // Get all wisata and kuliner data for search
+        allWisataList = WisataRepository.getAllWisata()
+        allKulinerList = KulinerRepository.getAllKuliner()
+        
         // Get top 3 wisata sorted by rating (descending)
-        topWisataList = WisataRepository.getAllWisata()
+        topWisataList = allWisataList
             .sortedByDescending { it.rating.toDoubleOrNull() ?: 0.0 }
             .take(3)
             
         // Get top 3 kuliner sorted by rating (descending)
-        topKulinerList = KulinerRepository.getAllKuliner()
+        topKulinerList = allKulinerList
             .sortedByDescending { it.rating.toDoubleOrNull() ?: 0.0 }
             .take(3)
             
         android.util.Log.d("HomepageActivity", "Loaded ${topWisataList.size} top wisata and ${topKulinerList.size} top kuliner")
+    }
+    
+    private fun setupSearchFunctionality() {
+        // Initialize search components
+        etSearch = findViewById(R.id.et_search)
+        searchDropdownContainer = findViewById(R.id.search_dropdown_container)
+        rvSearchDropdown = findViewById(R.id.rv_search_dropdown)
+        
+        // Setup RecyclerView
+        searchAdapter = SearchDropdownAdapter { searchResult ->
+            handleSearchItemClick(searchResult)
+        }
+        rvSearchDropdown.layoutManager = LinearLayoutManager(this)
+        rvSearchDropdown.adapter = searchAdapter
+        
+        // Setup search text watcher
+        etSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val query = s.toString().trim()
+                if (query.isEmpty()) {
+                    hideSearchDropdown()
+                } else if (query.length >= 1) { // Start searching from 1 character
+                    performSearch(query)
+                }
+            }
+            
+            override fun afterTextChanged(s: Editable?) {}
+        })
+        
+        // Hide dropdown when losing focus
+        etSearch.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                hideSearchDropdown()
+            }
+        }
+        
+        // Position dropdown correctly when shown
+        etSearch.viewTreeObserver.addOnGlobalLayoutListener {
+            positionDropdown()
+        }
+    }
+    
+    private fun positionDropdown() {
+        val searchContainer = findViewById<LinearLayout>(R.id.search_container)
+        if (searchContainer != null && searchDropdownContainer != null) {
+            val location = IntArray(2)
+            searchContainer.getLocationOnScreen(location)
+            
+            // Calculate position relative to search bar with much larger gap
+            val searchBarBottom = location[1] + searchContainer.height
+            val statusBarHeight = getStatusBarHeight()
+            
+            val params = searchDropdownContainer.layoutParams as RelativeLayout.LayoutParams
+            params.topMargin = searchBarBottom - statusBarHeight + 40 // 40dp gap below search bar
+            searchDropdownContainer.layoutParams = params
+        }
+    }
+    
+    private fun getStatusBarHeight(): Int {
+        var result = 0
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        if (resourceId > 0) {
+            result = resources.getDimensionPixelSize(resourceId)
+        }
+        return result
+    }
+    
+    private fun performSearch(query: String) {
+        val searchResults = mutableListOf<Pair<SearchResult, Int>>() // Pair of SearchResult and score
+        val queryLower = query.lowercase().trim()
+        
+        android.util.Log.d("SearchDebug", "Performing search for: '$queryLower'")
+        
+        // Search in wisata with strict filtering
+        allWisataList.forEach { wisata ->
+            val matchScore = calculateMatchScore(queryLower, wisata)
+            if (matchScore > 0) {
+                android.util.Log.d("SearchDebug", "Adding wisata: ${wisata.namaWisata} with score: $matchScore")
+                val searchResult = SearchResult(
+                    id = wisata.id,
+                    name = wisata.namaWisata,
+                    type = "Wisata",
+                    rating = wisata.rating,
+                    imageResource = wisata.imageResource,
+                    wisataData = wisata
+                )
+                searchResults.add(Pair(searchResult, matchScore))
+            } else {
+                android.util.Log.d("SearchDebug", "Skipping wisata: ${wisata.namaWisata} (score: 0)")
+            }
+        }
+        
+        // Search in kuliner with strict filtering
+        allKulinerList.forEach { kuliner ->
+            val matchScore = calculateMatchScore(queryLower, kuliner)
+            if (matchScore > 0) {
+                android.util.Log.d("SearchDebug", "Adding kuliner: ${kuliner.namaKuliner} with score: $matchScore")
+                val searchResult = SearchResult(
+                    id = kuliner.id,
+                    name = kuliner.namaKuliner,
+                    type = "Kuliner",
+                    rating = kuliner.rating,
+                    imageResource = kuliner.imageResource,
+                    kulinerData = kuliner
+                )
+                searchResults.add(Pair(searchResult, matchScore))
+            } else {
+                android.util.Log.d("SearchDebug", "Skipping kuliner: ${kuliner.namaKuliner} (score: 0)")
+            }
+        }
+        
+        // Sort by match score (descending) first, then by rating
+        val sortedResults = searchResults
+            .sortedWith(compareByDescending<Pair<SearchResult, Int>> { it.second }
+                .thenByDescending { it.first.rating.toDoubleOrNull() ?: 0.0 })
+            .take(8)
+            .map { it.first } // Extract SearchResult from Pair
+            
+        android.util.Log.d("SearchDebug", "Total results found: ${sortedResults.size}")
+        
+        if (sortedResults.isNotEmpty()) {
+            searchAdapter.updateResults(sortedResults)
+            showSearchDropdown()
+        } else {
+            android.util.Log.d("SearchDebug", "No results found, hiding dropdown")
+            hideSearchDropdown()
+        }
+    }
+    
+    private fun calculateMatchScore(query: String, wisata: Wisata): Int {
+        var score = 0
+        val nama = wisata.namaWisata.lowercase()
+        val lokasi = wisata.lokasi.lowercase() 
+        val kategori = wisata.kategori.lowercase()
+        
+        // Debug log
+        android.util.Log.d("SearchDebug", "Checking wisata: ${wisata.namaWisata} with query: '$query'")
+        
+        // SUPER STRICT: ONLY exact character match from beginning
+        // Check if name starts with exact query
+        if (nama.startsWith(query)) {
+            score += 100
+            android.util.Log.d("SearchDebug", "✓ Name '${wisata.namaWisata}' starts with '$query': +100")
+        }
+        
+        // Check if any word in name starts with exact query
+        nama.split(" ").forEach { word ->
+            if (word.isNotEmpty() && word.startsWith(query)) {
+                score += 80
+                android.util.Log.d("SearchDebug", "✓ Word '$word' starts with '$query': +80")
+            }
+        }
+        
+        // ONLY return score if there's a match - no partial matching allowed
+        android.util.Log.d("SearchDebug", "Final score for ${wisata.namaWisata}: $score")
+        return score
+    }
+    
+    private fun calculateMatchScore(query: String, kuliner: Kuliner): Int {
+        var score = 0
+        val nama = kuliner.namaKuliner.lowercase()
+        val lokasi = kuliner.lokasi.lowercase()
+        val kategori = kuliner.kategori.lowercase()
+        
+        // Debug log
+        android.util.Log.d("SearchDebug", "Checking kuliner: ${kuliner.namaKuliner} with query: '$query'")
+        
+        // SUPER STRICT: ONLY exact character match from beginning
+        // Check if name starts with exact query
+        if (nama.startsWith(query)) {
+            score += 100
+            android.util.Log.d("SearchDebug", "✓ Name '${kuliner.namaKuliner}' starts with '$query': +100")
+        }
+        
+        // Check if any word in name starts with exact query
+        nama.split(" ").forEach { word ->
+            if (word.isNotEmpty() && word.startsWith(query)) {
+                score += 80
+                android.util.Log.d("SearchDebug", "✓ Word '$word' starts with '$query': +80")
+            }
+        }
+        
+        // ONLY return score if there's a match - no partial matching allowed
+        android.util.Log.d("SearchDebug", "Final score for ${kuliner.namaKuliner}: $score")
+        return score
+    }
+    
+    private fun handleSearchItemClick(searchResult: SearchResult) {
+        // Hide dropdown first
+        hideSearchDropdown()
+        
+        // Clear search text and remove focus
+        etSearch.setText("")
+        etSearch.clearFocus()
+        
+        // Navigate to detail page
+        when (searchResult.type) {
+            "Wisata" -> {
+                searchResult.wisataData?.let { wisata ->
+                    openDetailWisata(wisata)
+                }
+            }
+            "Kuliner" -> {
+                searchResult.kulinerData?.let { kuliner ->
+                    openDetailKuliner(kuliner)
+                }
+            }
+        }
+    }
+    
+    private fun showSearchDropdown() {
+        positionDropdown() // Update position before showing
+        searchDropdownContainer.visibility = View.VISIBLE
+    }
+    
+    private fun hideSearchDropdown() {
+        searchDropdownContainer.visibility = View.GONE
     }
     
     private fun setupDynamicCards() {
@@ -102,10 +348,7 @@ class HomepageActivity : AppCompatActivity() {
             cardView.setOnClickListener {
                 openDetailWisata(wisata)
             }
-            
-            // Setup favorite button
-            val heartIcon = cardView.findViewById<ImageView>(R.id.heart_homepage_wisata)
-            setupWisataFavoriteButton(wisata, heartIcon)
+
             
             // Add to container
             wisataContainer?.addView(cardView)
@@ -147,8 +390,6 @@ class HomepageActivity : AppCompatActivity() {
             cardView.setOnClickListener {
                 openDetailKuliner(kuliner)
             }
-            
-            // Setup favorite button
 
             
             // Add to container
@@ -174,12 +415,14 @@ class HomepageActivity : AppCompatActivity() {
     }
 
     private fun openDetailWisata(wisata: Wisata) {
+        android.util.Log.d("HomepageActivity", "Opening detail for wisata: ${wisata.namaWisata} with ID: ${wisata.id}")
         val intent = Intent(this, DetailWisataActivity::class.java)
         intent.putExtra("wisata", wisata)
         startActivity(intent)
     }
     
     private fun openDetailKuliner(kuliner: Kuliner) {
+        android.util.Log.d("HomepageActivity", "Opening detail for kuliner: ${kuliner.namaKuliner} with ID: ${kuliner.id}")
         val intent = Intent(this, DetailKulinerActivity::class.java)
         intent.putExtra("kuliner", kuliner)
         startActivity(intent)
@@ -264,5 +507,17 @@ class HomepageActivity : AppCompatActivity() {
             putStringSet("favorite_ids", favoriteIds.map { it.toString() }.toSet())
             apply()
         }
+    }
+    
+    private fun setupBackPressedCallback() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (searchDropdownContainer.visibility == View.VISIBLE) {
+                    hideSearchDropdown()
+                } else {
+                    finish()
+                }
+            }
+        })
     }
 }

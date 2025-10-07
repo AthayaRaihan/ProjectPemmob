@@ -23,12 +23,16 @@ class DetailKulinerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_kuliner)
 
+        android.util.Log.d("DetailKulinerActivity", "onCreate called")
+        
         // Get Kuliner object from intent
         kulinerData = intent.getParcelableExtra("kuliner")
+        android.util.Log.d("DetailKulinerActivity", "Received kuliner data: ${kulinerData?.namaKuliner}")
         
         if (kulinerData != null) {
             setupKulinerData(kulinerData!!)
         } else {
+            android.util.Log.w("DetailKulinerActivity", "No kuliner object found, using fallback")
             // Fallback to old method if object not found
             val namaKuliner = intent.getStringExtra("nama_kuliner") ?: "Gudeg Yu Djum"
             val rating = intent.getStringExtra("rating") ?: "4.5"
@@ -88,4 +92,4 @@ class DetailKulinerActivity : AppCompatActivity() {
             }
         }
     }
-        }
+}
